@@ -1,0 +1,51 @@
+Adjust Environmental Variables
+T.Moore
+12.12.18
+
+Basic code that adjusts temp, humidity, and soil hi and low values.
+PB1 = Increase Proper Temp Value push button.
+PB2 = Decrease Proper Temp Value push button.
+PB3 = Increase Proper Humidity Value push button.
+PB4 = Decrease Proper Humidity Value push button.
+PB5 = Increase Proper Soil Moisture Value push button.
+PB6 = Decrease Proper Soil Moisture Value push button.
+PB7 = Increase Light on Time (in hours) push button.
+PB8 = Decrease Light on Time (in hours) push button.
+
+Main()
+	# Variables
+	proper_temp 		=	27		# temp should be 27 Deg C
+proper_humidity	=	68		# humidity should be 68%
+	proper_moisture	=	27		# soil moisture should be 77 % (??)
+	TimeLightOn 		= 	5am		# what time to turn on lights
+LightOnDuration 	= 	12		# how many hours until turn off lights
+
+While()
+# ------------------------------------------------------------------------------------
+# Increase/Decrease the proper air temperature
+If PB1	= 1 then
+	proper_temp = proper_temp + 1	
+If PB2	= 1 then
+	proper_temp = proper_temp - 1	
+
+# ------------------------------------------------------------------------------------
+# Increase/Decrease the proper humidity
+If PB3	= 1 then
+	proper_humidity= proper_humidity + 1	
+If PB4	= 1 then
+	proper_humidity= proper_humidity - 1	
+
+# ------------------------------------------------------------------------------------
+# Increase/Decrease the proper soil moisture
+If PB5	= 1 then
+	proper_moisture= proper_moisture + 1	
+If PB6	= 1 then
+	proper_moisture= proper_moisture - 1	
+
+# ------------------------------------------------------------------------------------
+# Increase/Decrease the hours light is on
+If PB7	= 1 then
+	LightOnDuration = LightOnDuration + 1	
+If PB8	= 1 then
+	LightOnDuration = LightOnDuration - 1
+end;
