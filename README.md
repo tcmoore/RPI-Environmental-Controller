@@ -18,10 +18,29 @@ Icing on the cake would be:
 -turn grow lights on/off using RPI
 
 Websites for reference:
+
+- RPI DOCS
+  https://www.raspberrypi.org/documentation/usage/python/
+  
 - Tkinter GUI Widgets Code
   https://www.dummies.com/programming/python/using-tkinter-widgets-in-python/
 
 - Other GUI Libraries/Code
   https://insights.dice.com/2017/08/07/7-top-python-gui-frameworks-for-2017-2/
   https://wiki.python.org/moin/WebFrameworks/
+  
+- GPIO
+  https://makezine.com/projects/tutorial-raspberry-pi-gpio-pins-and-python/
+  http://www.thirdeyevis.com/pi-page-2.php  - GPIO LED
+  
+- FILES
+  https://www.digitalocean.com/community/tutorials/how-to-handle-plain-text-files-in-python-3
+  
+- DATE/TIME
+  https://www.cyberciti.biz/faq/howto-get-current-date-time-in-python/
+  
+- EMAIL\
+  http://www.pythonforbeginners.com/code-snippets-source-code/using-python-to-send-email
+  
+  
   
