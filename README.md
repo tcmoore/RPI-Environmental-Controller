@@ -39,7 +39,7 @@ Websites for reference:
 - DATE/TIME
   - https://www.cyberciti.biz/faq/howto-get-current-date-time-in-python/
   
-- EMAIL\
+- EMAIL
   - http://www.pythonforbeginners.com/code-snippets-source-code/using-python-to-send-email
   
   
