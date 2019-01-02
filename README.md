@@ -41,6 +41,9 @@ Websites for reference:
   
 - EMAIL
   - http://www.pythonforbeginners.com/code-snippets-source-code/using-python-to-send-email
+
+- GROVE SENSOR GITHUB LIBRARY
+  - https://github.com/DexterInd/GrovePi
   
   
   
