@@ -21,6 +21,9 @@ Websites for reference:
 
 - RPI DOCS
   - https://www.raspberrypi.org/documentation/usage/python/
+
+- RPI GPIO PINOUT
+  - https://pinout.xyz/
   
 - Tkinter GUI Widgets Code
   - https://www.dummies.com/programming/python/using-tkinter-widgets-in-python/
