@@ -49,4 +49,5 @@ Websites for reference:
 - GROVE SENSOR GITHUB LIBRARY
   - https://github.com/DexterInd/GrovePi
   
-  
+- Example Projects
+  - https://www.cyber-omelette.com/2017/09/automated-plant-watering.html
