@@ -51,3 +51,8 @@ Websites for reference:
   
 - Example Projects
   - https://www.cyber-omelette.com/2017/09/automated-plant-watering.html
+  
+- IOT Using Android Phone
+  - Blynk
+  - https://www.blynk.cc/
+  
