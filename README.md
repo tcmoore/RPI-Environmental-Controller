@@ -20,8 +20,6 @@ Icing on the cake would be:
 - Turn grow lights on/off using RPI (relay)
 - Turn on/off fan based on temp & humidity using RPI (relay)
 
-Websites for reference:
-
 - MY DESIGN DOCUMENT USING GROVE COMPONENTS
   - https://github.com/tcmoore/RPI-Environmental-Controller/blob/master/RPI%20Environmental%20Control%20Project.pdf
   
@@ -31,6 +29,8 @@ Websites for reference:
 - MY CODE
   - https://github.com/tcmoore/RPI-Environmental-Controller/tree/master/code
 __________________________________________________________________________________________________________________________
+
+Websites for reference:
 
 - RPI DOCS
   - https://www.raspberrypi.org/documentation/usage/python/
