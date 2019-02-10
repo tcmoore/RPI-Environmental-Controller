@@ -14,7 +14,7 @@ Icing on the cake would be:
 - Visual Display (LCD Display)
 - Increase humidity in grow box if humidity is too low (water atomizer)
 - Interactive controls for changing env values (buttons)
-- IoT/Web page access/controll
+- IoT/Web page access/control
 - Push alarms to me via text/email
 - Add water to soil based on soil moisture value (relay, water pump)
 - Turn grow lights on/off using RPI (relay)
@@ -30,7 +30,8 @@ Websites for reference:
   
 - MY CODE
   - https://github.com/tcmoore/RPI-Environmental-Controller/tree/master/code
-    
+__________________________________________________________________________________________________________________________
+
 - RPI DOCS
   - https://www.raspberrypi.org/documentation/usage/python/
   - https://github.com/raspberrypi
