@@ -26,8 +26,11 @@ Websites for reference:
   - https://github.com/tcmoore/RPI-Environmental-Controller/blob/master/RPI%20Environmental%20Control%20Project.pdf
   
 - MY DESIGN DIAGRAM SHOWING WHERE THE GROVE SENSORS & MODULES & LEDS WILL BE CONNECTED TO THE GROVEPI PLUS HAT
-  - https://github.com/tcmoore/RPI-Environmental-Controller/blob/master/GrovePi_Plus_Hat_Sensor%20to%20Pin%20List.pdf
+  - https://github.com/tcmoore/RPI-Environmental-Controller/blob/master/GrovePi_Plus_Hat_Sensor%20to%20Pin%20List.pdf\
   
+- MY CODE
+  - https://github.com/tcmoore/RPI-Environmental-Controller/tree/master/code
+    
 - RPI DOCS
   - https://www.raspberrypi.org/documentation/usage/python/
   - https://github.com/raspberrypi
