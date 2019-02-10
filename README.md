@@ -1,24 +1,33 @@
 # RPI-Environmental-Controller
 
-This is my design of a Raspberry PI B Environmental Controller. This design will have many stages until completion.  Check documentation on this github repository for detailed descriptions of the design.
+This is my design of a Raspberry PI B Environmental Controller. It will be used in a 2'x2'x6' grow box.  This design will have many stages until completion.  Check documentation on this github repository for detailed descriptions of the design.
 
 Design goals are:
-- Read Temp
-- Read Humidity
-- Read Soil Moisture
-- Turn on/off fan based on temp & humidity
-- Provide alarms for over/under values of temp/humidity/soil moisture
+- Read Temp (temp/humidity sensor)
+- Read Humidity (temp/humidity sensor)
+- Read Soil Moisture (soil moisture sensor)
+- Read air quality for smoke (are quality sensor)
+- Visual alarms for over/under values of temp/humidity/soil moisture (leds)
+- Alarm with sound if smoke is detected (buzzer)
 
 Icing on the cake would be:
-- Visual Display
-- Interactive controls (IE Buttons) for changing env values
+- Visual Display (LCD Display)
+- Increase humidity in grow box if humidity is too low (water atomizer)
+- Interactive controls for changing env values (buttons)
 - IoT/Web page access/controll
 - Push alarms to me via text/email
-- Add water to soil based on soil moisture value
-- Turn grow lights on/off using RPI
+- Add water to soil based on soil moisture value (relay, water pump)
+- Turn grow lights on/off using RPI (relay)
+- Turn on/off fan based on temp & humidity using RPI (relay)
 
 Websites for reference:
 
+- MY DESIGN DOCUMENT USING GROVE COMPONENTS
+  - https://github.com/tcmoore/RPI-Environmental-Controller/blob/master/RPI%20Environmental%20Control%20Project.pdf
+  
+- MY DESIGN DIAGRAM SHOWING WHERE THE GROVE SENSORS & MODULES & LEDS WILL BE CONNECTED TO THE GROVEPI PLUS HAT
+  - https://github.com/tcmoore/RPI-Environmental-Controller/blob/master/GrovePi_Plus_Hat_Sensor%20to%20Pin%20List.pdf
+  
 - RPI DOCS
   - https://www.raspberrypi.org/documentation/usage/python/
   - https://github.com/raspberrypi
