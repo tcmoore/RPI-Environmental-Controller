@@ -1,31 +1,27 @@
-Get_temp_humidity
+# Get Temp & Humidity from Temp & Humidity Sensor Pro (AM2302) using the GrovePi + Hat atttached to the RPI.
+http://wiki.seeedstudio.com/Grove-Temperature_and_Humidity_Sensor_Pro/
 
-Uses the Grove - Temp&Humi Sensor(SHT31).  Sensor uses I2C.
+# Sensor is attached to D2 of GrovePi + Hat
 
-http://wiki.seeedstudio.com/Grove-TempAndHumi_Sensor-SHT31/
+import grovepi
+import math
+# Connect the Grove Temperature & Humidity Sensor Pro to digital port D2
+# This code uses the white colored sensor.
+# SIG,NC,VCC,GND
+sensor = 2  # The Sensor goes on digital port 2.
 
-#include <Arduino.h>
-#include <Wire.h>
-#include "SHT31.h"
+# temp_humidity_sensor_type
+# Grove Base Kit comes with the blue sensor.
+blue = 0    # The Blue colored sensor.
+white = 1   # The White colored sensor.
 
-SHT31 sht31 = SHT31();
+while True:
+    try:
+        # This example uses the white colored sensor.
+        # The first parameter is the port, the second parameter is the type of sensor.
+        [temp,humidity] = grovepi.dht(sensor,white)  
+        if math.isnan(temp) == False and math.isnan(humidity) == False:
+            print("temp = %.02f C humidity =%.02f%%"%(temp, humidity))
 
-void setup() {  
-  Serial.begin(9600);
-  while(!Serial);
-  Serial.println("begin...");  
-  sht31.begin();  
-}
-
-void loop() {
-  float temp = sht31.getTemperature();
-  float hum = sht31.getHumidity();
-  Serial.print("Temp = "); 
-  Serial.print(temp);
-  Serial.println(" C"); //The unit for  Celsius because original arduino don't support speical symbols
-  Serial.print("Hum = "); 
-  Serial.print(hum);
-  Serial.println("%"); 
-  Serial.println();
-  delay(1000);
-}
+    except IOError:
+        print ("Error")
