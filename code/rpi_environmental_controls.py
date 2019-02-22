@@ -1,53 +1,42 @@
-Raspberry Pi Environmental Controls
-T.Moore
-12.12.18
+# Raspberry Pi Environmental Controls For My Growbox Design
+# Todd Moore
+# 12.22.18
 
-code that measures temp, humidity, & soil moisture, sets alarms, saves alarm data, & displays environmental data on a webpage.
+# code that measures temp, humidity, & soil moisture, sets alarms, saves alarm data, increases humidity in growbox,
+# & displays environmental data on an RGB LCD & webpage.
 
-Code is compatible with Python 2.7 and Python 3.5
+# Code is compatible with Python 2.7 and Python 3.5.
 
-26 usable GPIO pins on RPI Model 3 B
-https://gpiozero.readthedocs.io/en/stable/
+# Code is for Raspberry Pi with the GrovePi+ hat attached to the GPIO connector.
 
+# RPI/Grove Pinout Definitions
+#	Port# 	Pin on Port# 	Type			Sensor/Module
+#	---------------------------------------------------------------
+#	SERIAL	D0	 	DIGITAL & SERIAL	Grove Buzzer
+#	D2 	D2	 	DIGITAL 		Grove - Temperature&Humidity Sensor Pro
+#	D3 	D3	 	DIGITAL 		Grove - Water Atomization
+#	D4 	D4 & D5 	DIGITAL 		Grove - 2-Channel SPDT Switch 1 (Top Connector) – LED Lights
+#							Grove - 2-Channel SPDT Switch 1 (Bottom Connector) – Exhaust Fan
+#	D5 	D5 & D6 	DIGITAL 		-
+#	D6 	D6	 	DIGITAL 		Temp Alarm LED
+#	D7 	D7	 	DIGITAL 		Humid Alarm LED
+#	D8 	D8	 	DIGITAL 		Moisture Alarm LED
+#	A0 	A0 & A1 	ANALOG 			-
+#	A1 	A1	 	ANALOG			Grove MQ2 Air Sensor
+#	A2	A2 		ANALOG 			Grove - Moisture Sensor
+#	I2C-1 			I2C -
+#	I2C-2 			I2C -
+#	I2C-3 			I2C 			Grove - LCD RGB Backlight
+#	RPRISER 		RPI SERIAL
 
-Main()
+def main()
+	# define the main() function
+	# ...
 	
-import datetime
+# run main() function
+if __name__ == "__main__":
+    main()
 
-# Temp Constants
-TempAlarmGood 	= 	0x0001
-TempAlarmHi 		= 	0x0002
-	TempAlarmLo 		= 	0x0004
-
-	# Humidity Constants
-HumidAlarmGood 	= 	0x0008
-HumidAlarmHi 	= 	0x0010
-	HumidAlarmLo 	= 	0x0020
-	
-	# Soil Moisture Constants
-MoistureAlarmGood 	= 	0x0040
-MoistureAlarmHi 	= 	0x0080
-	MoistureAlarmLo 	= 	0x0100
-
-	# Lighting Constants
-	LightOn		=	0x0200
-	LightOff		=	0x0dff
-
-#  Fan Relay Constants
-	FanOn			=	0x0400
-	FanOff			=	0x0bff
-
-	# Variables
-	proper_temp 		=	27		# temp should be 27 Deg C
-proper_humidity	=	68		# humidity should be 68%
-	proper_moisture	=	27		# soil moisture should be 77 % (??)
-	TimeLightOn 		= 	5am		# what time to turn on lights
-LightOnDuration 	= 	12		# how many hours until turn off lights
-	CurrentTempValue 	= 	0		# measured current temp
-	CurrentHumidValue 	= 	0		# measured current humidity
-	CurrentMoistureValue = 	0		# measured current soil moisture
-	CurrentDateTime 	= 	121218:123000	# Dec 12, 2018 12:30:00 pm
-								# current system time
 
 Main()
 	While()
