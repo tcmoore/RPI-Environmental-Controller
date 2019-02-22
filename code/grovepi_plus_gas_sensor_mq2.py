@@ -1,5 +1,5 @@
 # Get air quality from Grove sensor MQ2 connected to GrovePi+ port A1
-
+# Code taken from: http://wiki.seeedstudio.com/Grove-Gas_Sensor-MQ2/
 
 import math
 import sys
