@@ -20,7 +20,8 @@ sensor = 2
 
 while True:
     try:
-        print(grovepi.analogRead(sensor))
+        moisture = grovepi.analogRead(sensor)
+        print(moisture)
         time.sleep(.5)
 
     except KeyboardInterrupt:
