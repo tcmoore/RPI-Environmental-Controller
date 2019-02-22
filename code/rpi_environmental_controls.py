@@ -29,47 +29,54 @@
 #	I2C-3 			I2C 			Grove - LCD RGB Backlight
 #	RPRISER 		RPI SERIAL
 
+import current_date_time
+import grovepi_plus_get_temp_humidity
+import grovepi_plus_get_soil_moisture
+import grovepi_plus_gas_sensor_mq2
+import check_alarms
+
 def main()
 	# define the main() function
 	# ...
+	while True:
+		try:
+			# --------------------------------------------------------------------	
+			# Get current date & time
+			now = current_date_time.now
+			# --------------------------------------------------------------------
+	
+			# --------------------------------------------------------------------
+			# Get Temperature & Humidity & check if there is an alarm
+			temp = grovepi_plus_get_temp_humidity.temp
+			humidity = grovepi_plus_get_temp_humidity.humidity
+			# --------------------------------------------------------------------
+	
+			# --------------------------------------------------------------------
+			# Get Soil Moisture & check if there is an alarm
+			#   Here are suggested sensor values:
+			#       Min  Typ  Max  Condition
+			#       0    0    0    sensor in open air
+			#       0    20   300  sensor in dry soil
+			#       300  580  700  sensor in humid soil
+			#       700  940  950  sensor in water
+			moisture = grovepi_plus_get_soil_moisture.moisture
+			# --------------------------------------------------------------------
+	
+			# --------------------------------------------------------------------
+			# Get Air Quality Value from MQ2 sensor & check for an alarm
+			sensor_value = grovepi_plus_gas_sensor_mq2.sensor_value
+			density = grovepi_plus_gas_sensor_mq2.density
+			# --------------------------------------------------------------------
+			
+			# --------------------------------------------------------------------
+			
+		
+	
+	
+	
 	
 # run main() function
 if __name__ == "__main__":
     main()
 
 
-Main()
-	While()
-# --------------------------------------------------------------------
-# Increment/Decrement Temp, Humidity, Soil Mixture & Light Turn On Time using
-# pushbuttons
-adjust_environment_variables();
-
-# --------------------------------------------------------------------
-# Get current Date, Time, Temp, Humidity, & Moisture Values
-# https://tecadmin.net/get-current-date-time-python/
-currentDT = datetime.datetime.now()
-print (str(currentDT))
-print ("Current Hour is: %d" % currentDT.hour)
-
-CurrentTempValue 	= Get Temp		# Get temp
-CurrentHumidValue 	= Get Humidity	# Get humidity
-CurrentMoistureValue = Get Moisture	# Get soil moisture
-
-# --------------------------------------------------------------------
-# Check Alarms & turn on leds
-check_alarms()
-
-# --------------------------------------------------------------------
-# Save History of past 24 hours
-If (IsAlarm = ‘Y’) then
-save_history()
-
-# --------------------------------------------------------------------
-	# display environmental values on webpage
-
-# --------------------------------------------------------------------
-	# display environmental values on OLED screen
-
-End loop;
-end;
