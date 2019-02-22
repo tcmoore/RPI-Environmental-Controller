@@ -24,8 +24,8 @@
 #	A0 	A0 & A1 	ANALOG 			-
 #	A1 	A1	 	ANALOG			Grove MQ2 Air Sensor
 #	A2	A2 		ANALOG 			Grove - Moisture Sensor
-#	I2C-1 			I2C -
-#	I2C-2 			I2C -
+#	I2C-1 			I2C 			-
+#	I2C-2 			I2C 			-
 #	I2C-3 			I2C 			Grove - LCD RGB Backlight
 #	RPRISER 		RPI SERIAL
 
@@ -38,6 +38,12 @@ import check_alarms
 def main()
 	# define the main() function
 	# ...
+	# Initialize alarm flags
+	temp_alarm = "NO"
+	humid_alarm = "NO"
+	moisture_alarm = "NO"
+	smoke_alarm = "NO"
+	
 	while True:
 		try:
 			# --------------------------------------------------------------------	
@@ -46,9 +52,23 @@ def main()
 			# --------------------------------------------------------------------
 	
 			# --------------------------------------------------------------------
-			# Get Temperature & Humidity & check if there is an alarm
+			# Get Temperature & Humidity
 			temp = grovepi_plus_get_temp_humidity.temp
 			humidity = grovepi_plus_get_temp_humidity.humidity
+			
+			# check for temp alarm
+			if temp < 18 or temp > 25:
+				temp_alarm = "YES!"
+				# turn on temp alarm led
+				
+			else:
+				temp_alarm = "NO"
+				
+			# check for humidity alarm
+			if humidity < 40 or humidity > 80:
+				humid_alarm = "YES!"
+			else:
+				humid_alarm = "NO"
 			# --------------------------------------------------------------------
 	
 			# --------------------------------------------------------------------
@@ -60,6 +80,12 @@ def main()
 			#       300  580  700  sensor in humid soil
 			#       700  940  950  sensor in water
 			moisture = grovepi_plus_get_soil_moisture.moisture
+			
+			# check for soil moisture alarm
+			if moisture < 200 or moisture > 800:
+				moisture_alarm = "YES!"
+			else:
+				moisture_alarm = "NO"
 			# --------------------------------------------------------------------
 	
 			# --------------------------------------------------------------------
