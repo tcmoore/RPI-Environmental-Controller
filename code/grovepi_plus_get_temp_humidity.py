@@ -1,7 +1,7 @@
 # Get Temp & Humidity from Temp & Humidity Sensor Pro (AM2302) using the GrovePi + Hat atttached to the RPI.
-http://wiki.seeedstudio.com/Grove-Temperature_and_Humidity_Sensor_Pro/
+# http://wiki.seeedstudio.com/Grove-Temperature_and_Humidity_Sensor_Pro/
 
-# Sensor is attached to D2 of GrovePi + Hat
+# Sensor is attached to Port D2, pin D2 of GrovePi + Hat
 
 import grovepi
 import math
