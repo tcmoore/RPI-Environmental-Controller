@@ -1,37 +1,25 @@
 # Get air quality from Grove sensor MQ2 connected to GrovePi+ port A1
 # Code taken from: http://wiki.seeedstudio.com/Grove-Gas_Sensor-MQ2/
 
-import math
-import sys
 import time
-from grove.adc import ADC
+import grovepi
 
+# Connect the Grove Gas Sensor to analog port A1
+# SIG,NC,VCC,GND
+gas_sensor = 1
 
-class GroveGasSensorMQ2:
+grovepi.pinMode(gas_sensor,"INPUT")
 
-    def __init__(self, channel):
-        self.channel = channel
-        self.adc = ADC()
+while True:
+    try:
+        # Get sensor value
+        sensor_value = grovepi.analogRead(gas_sensor)
 
-    @property
-    def MQ2(self):
-        value = self.adc.read(self.channel)
-        return value
+        # Calculate gas density - large value means more dense gas
+        density = (float)(sensor_value / 1024.0)
 
-Grove = GroveGasSensorMQ2
+        print("sensor_value =", sensor_value, " density =", density)
+        time.sleep(.5)
 
-
-def main():
-    if len(sys.argv) < 2:
-        print('Usage: {} adc_channel'.format(sys.argv[0]))
-        sys.exit(1)
-
-    sensor = GroveGasSensorMQ2(int(sys.argv[1]))
-
-    print('Detecting...')
-    while True:
-        print('Gas value: {0}'.format(sensor.MQ2))
-        time.sleep(.3)
-
-if __name__ == '__main__':
-    main()
+    except IOError:
+        print ("Error")
