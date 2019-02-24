@@ -15,13 +15,9 @@ sensor = 2  # The Sensor goes on digital port 2.
 blue = 0    # The Blue colored sensor.
 white = 1   # The White colored sensor.
 
-while True:
-    try:
-        # This example uses the white colored sensor.
-        # The first parameter is the port, the second parameter is the type of sensor.
-        [temp,humidity] = grovepi.dht(sensor,white)  
-        if math.isnan(temp) == False and math.isnan(humidity) == False:
-            print("temp = %.02f C humidity =%.02f%%"%(temp, humidity))
-
-    except IOError:
-        print ("Error")
+# This example uses the white colored sensor.
+# The first parameter is the port, the second parameter is the type of sensor.
+[temp,humidity] = grovepi.dht(sensor,white)  
+    if math.isnan(temp) == False and math.isnan(humidity) == False:
+        print("temp = %.02f C humidity =%.02f%%"%(temp, humidity))
+return temp,humidity
