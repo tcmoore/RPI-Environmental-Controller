@@ -43,6 +43,7 @@ def main()
 	str moisture_alarm = "OFF"
 	str smoke_alarm = "OFF"
 	str fan_on = "OFF"
+	str atomizer_on = "OFF"
 	
 	# --------------Setup Hardware	---------------------
 	buzzer = 0
@@ -50,6 +51,9 @@ def main()
 	
 	gas_sensor = 1
 	grovepi.pinMode(gas_sensor,"INPUT") # Connect the Grove Gas Sensor to analog port A1
+	
+	atomizer = 3
+	grovepi.pinMode(atomizer,"OUTPUT") # Connect the Grove water atomizer to digital pin D3 on port D3
 	
 	light = 4
 	grovepi.pinMode(light,"OUTPUT") # Connect the Grove 2 ch relay (top relay) to digital pin D4 on port D4
@@ -96,20 +100,20 @@ def main()
 			# --------------------------------------------------------------------
 			# check for temp alarm
 			if temp < 67 or temp > 77:
-				temp_alarm = True
+				temp_alarm = "ON"
 				grovepi.digitalWrite(temp_alarm_led,1)     # turn on temp alarm led	
 			else:
-				temp_alarm = False
+				temp_alarm = "OFF"
 				grovepi.digitalWrite(temp_alarm_led,0)     # turn off temp alarm led		
 			print("Temp Alarm is ",temp_alarm)
 			
 			# --------------------------------------------------------------------
 			# check for humidity alarm
 			if humidity < 40 or humidity > 80:
-				humid_alarm = True
+				humid_alarm = "ON"
 		 		grovepi.digitalWrite(humid_alarm_led,1)     # turn on humidity alarm led		
 			else:
-				humid_alarm = False
+				humid_alarm = "OFF"
 		 		grovepi.digitalWrite(humid_alarm_led,0)     # turn off humidity alarm led		
 			print("Humid Alarm is ", humid_alarm)
 			
@@ -125,10 +129,10 @@ def main()
 			
 			# check for soil moisture alarm
 			if moisture < 200 or moisture > 800:
-				moisture_alarm = True
+				moisture_alarm = "ON"
 				grovepi.digitalWrite(moisture_alarm_led,1)     # Send HIGH to switch on LED		
 			else:
-				moisture_alarm = False
+				moisture_alarm = "OFF"
 				grovepi.digitalWrite(moisture_alarm_led,0)     # Send LOW to switch off LED
 			print("Moisture Alarm is ",moisture_alarm)
 				
@@ -146,12 +150,22 @@ def main()
 			# --------------------------------------------------------------------
 			# Turn Fan on if temperature is too high or humidity is too high
 			if temp > 77 or humidity > 80:
-				fan_on = True
+				fan_on = "ON"
 				grovepi.digitalWrite(fan,1)     # turn on exhaust fan	
 			else:
-				fan_on = False
+				fan_on = "OFF"
 				grovepi.digitalWrite(fan,0)     # turn off exhaust fan		
 			print("Fan is ",fan_on)
+			
+			# --------------------------------------------------------------------
+			# turn on water atomizer if humidity is too low
+			if humidity < 40:
+				atomizer_on = "ON"
+		 		grovepi.digitalWrite(atomizer,1)     # turn on humidity alarm led		
+			else:
+				atomizer_on = "OFF"
+		 		grovepi.digitalWrite(atomizer,0)     # turn off humidity alarm led		
+			print("Atomizer is ", atomizer_on)
 			
 			# --------------------------------------------------------------------
 			# Display Environmental Data on LCD Screen
@@ -161,7 +175,7 @@ def main()
     			time.sleep(5)
 			setText("Temp:",str(temp)," F - Alarm:",temp_alarm)
     			time.sleep(5)
-			setText("Humidity:",str(humidity),"% - Alarm:",humidity_alarm)
+			setText("Humidity:",str(humidity),"% - Alarm:",humidity_alarm,"Atomizer is ",atomizer_on) 
     			time.sleep(5)		
 			setText("Moisture: ", str(moisture)," - Alarm:",moisture_alarm)
     			time.sleep(5)
