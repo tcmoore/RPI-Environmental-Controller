@@ -29,24 +29,33 @@
 #	I2C-3 			I2C 			Grove - LCD RGB Backlight
 #	RPRISER 		RPI SERIAL
 
+#!/usr/bin/env python
 import current_date_time
 import grovepi
-import grovepi_plus_get_temp_humidity
-import grovepi_plus_get_soil_moisture
-import grovepi_plus_gas_sensor_mq2
+import grove_rgb_lcd
 
 def main()
 	# define the main() function
 	# ...
 	# Initialize alarm flags
-	temp_alarm = False
-	humid_alarm = False
-	moisture_alarm = False
-	smoke_alarm = False
+	str temp_alarm = "OFF"
+	str humid_alarm = "OFF"
+	str moisture_alarm = "OFF"
+	str smoke_alarm = "OFF"
+	str fan_on = "OFF"
 	
 	# --------------Setup Hardware	---------------------
 	buzzer = 0
 	grovepi.pinMode(buzzer,"OUTPUT")  # Connect Smoke Alarm Buzzer to digital port D0
+	
+	gas_sensor = 1
+	grovepi.pinMode(gas_sensor,"INPUT") # Connect the Grove Gas Sensor to analog port A1
+	
+	light = 4
+	grovepi.pinMode(light,"OUTPUT") # Connect the Grove 2 ch relay (top relay) to digital pin D4 on port D4
+	
+	fan = 5
+	grovepi.pinMode(fan,"OUTPUT") # Connect the Grove 2 ch relay (bottom relay) to digital pin D5 on port D4
 	
 	temp_alarm_led = 6
 	grovepi.pinMode(temp_alarm_led,"OUTPUT")  # Connect Temperature Alarm LED to digital port D6
@@ -56,15 +65,6 @@ def main()
 	
 	moisture_alarm_led = 8
 	grovepi.pinMode(moisture_alarm_led,"OUTPUT") # Connect Moisture Alarm LED to digital port D8
-		
-	light = 4
-	grovepi.pinMode(light,"OUTPUT") # Connect the Grove 2 ch relay (top relay) to digital pin D4 on port D4
-	
-	fan = 5
-	grovepi.pinMode(fan,"OUTPUT") # Connect the Grove 2 ch relay (bottom relay) to digital pin D5 on port D4
-	
-	gas_sensor = 1
-	grovepi.pinMode(gas_sensor,"INPUT") # Connect the Grove Gas Sensor to analog port A1
 	
 	time.sleep(1)
 	
@@ -78,37 +78,41 @@ def main()
 
         print("nominal_sensor_value =", nominal_sensor_value, " nominal_density =", nominal_density)
         time.sleep(.5)
-
 	
 	while True:
 		try:
 			# --------------------------------------------------------------------	
 			# Get current date & time
 			now = current_date_time.now
-	
+		 	print("Date/Time is ", now.strftime("%Y-%m-%d %I:%M"))
+
 			# --------------------------------------------------------------------
 			# Get Temperature & Humidity
-			temp = grovepi_plus_get_temp_humidity.temp
+			# Fahrenheit = 9.0/5.0 * Celsius + 32
+			temp = (9.0/5.0 * grovepi_plus_get_temp_humidity.temp) + 32))
 			humidity = grovepi_plus_get_temp_humidity.humidity
+			print("Temp is: ", temp," F - Humidity is: ",humidity,"%")
 			
+			# --------------------------------------------------------------------
 			# check for temp alarm
-			if temp < 18 or temp > 25:
+			if temp < 67 or temp > 77:
 				temp_alarm = True
-				# turn on temp alarm led
-		 		grovepi.digitalWrite(temp_alarm_led,1)     # Send HIGH to switch on LED		
+				grovepi.digitalWrite(temp_alarm_led,1)     # turn on temp alarm led	
 			else:
 				temp_alarm = False
-				# turn off temp alarm led
-		 		grovepi.digitalWrite(temp_alarm_led,0)     # Send LOW to switch off LED		
-					
+				grovepi.digitalWrite(temp_alarm_led,0)     # turn off temp alarm led		
+			print("Temp Alarm is ",temp_alarm)
+			
+			# --------------------------------------------------------------------
 			# check for humidity alarm
 			if humidity < 40 or humidity > 80:
 				humid_alarm = True
-		 		grovepi.digitalWrite(humid_alarm_led,1)     # Send HIGH to switch on LED		
+		 		grovepi.digitalWrite(humid_alarm_led,1)     # turn on humidity alarm led		
 			else:
 				humid_alarm = False
-		 		grovepi.digitalWrite(humid_alarm_led,0)     # Send LOW to switch off LED		
-	
+		 		grovepi.digitalWrite(humid_alarm_led,0)     # turn off humidity alarm led		
+			print("Humid Alarm is ", humid_alarm)
+			
 			# --------------------------------------------------------------------
 			# Get Soil Moisture & check if there is an alarm
 			#   Here are suggested sensor values:
@@ -125,7 +129,8 @@ def main()
 				grovepi.digitalWrite(moisture_alarm_led,1)     # Send HIGH to switch on LED		
 			else:
 				moisture_alarm = False
-				grovepi.digitalWrite(moisture_alarm_led,0)     # Send LOW to switch off LED		
+				grovepi.digitalWrite(moisture_alarm_led,0)     # Send LOW to switch off LED
+			print("Moisture Alarm is ",moisture_alarm)
 				
 			# --------------------------------------------------------------------
 			# Get Air Quality Value from MQ2 sensor
@@ -137,11 +142,36 @@ def main()
         		time.sleep(.5)
 	
 			# Still need to figure out alarm code 
-	
-	
-	
+		
+			# --------------------------------------------------------------------
+			# Turn Fan on if temperature is too high or humidity is too high
+			if temp > 77 or humidity > 80:
+				fan_on = True
+				grovepi.digitalWrite(fan,1)     # turn on exhaust fan	
+			else:
+				fan_on = False
+				grovepi.digitalWrite(fan,0)     # turn off exhaust fan		
+			print("Fan is ",fan_on)
+			
+			# --------------------------------------------------------------------
+			# Display Environmental Data on LCD Screen
+			setRGB(0,128,64)
+    			time.sleep(2)
+			setText("Date/Time: ", now.strftime("%Y-%m-%d %I:%M"))
+    			time.sleep(5)
+			setText("Temp:",str(temp)," F - Alarm:",temp_alarm)
+    			time.sleep(5)
+			setText("Humidity:",str(humidity),"% - Alarm:",humidity_alarm)
+    			time.sleep(5)		
+			setText("Moisture: ", str(moisture)," - Alarm:",moisture_alarm)
+    			time.sleep(5)
+			setText("Fan is ",fan_on)
+    			time.sleep(5)
+			setText("Nominal Air Sensor=",nominal_sensor_value," Nominal Density=",nominal_density)
+			time.sleep(5)
+			setText("Current Air Sensor=",sensor_value," density=",density)
+			time.sleep(5)	
+			
 # run main() function
 if __name__ == "__main__":
     main()
-
-
