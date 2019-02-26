@@ -32,6 +32,8 @@
 #!/usr/bin/env python
 import current_date_time
 import grovepi
+import grovepi_plus_get_temp_humidity
+import grovepi_plus_get_soil_moisture
 import grove_rgb_lcd
 
 def main()
