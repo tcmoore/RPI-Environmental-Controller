@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "C:\\vstudio_hello"
+		},
+		{
+			"path": ".",
+			"name": "RPI-Environmental-Controller"
+		}
+	],
+	"settings": {}
+}
