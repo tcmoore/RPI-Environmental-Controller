@@ -71,6 +71,7 @@ Websites for reference:
   - https://github.com/vshymanskyy/blynk-library-python
   - https://www.pibakery.org/
   - https://github.com/blynkkk/blynk-server#quick-local-server-setup-on-raspberry-pi    - install local Blynk server on RPI
+  - https://github.com/switchdoclabs/SDL_Pi_SmartGardenSystem                           - garden system python code using Blynk
 
 - Using Free Visual Studio Code IDE with github
   - https://code.visualstudio.com//#built-in-git
