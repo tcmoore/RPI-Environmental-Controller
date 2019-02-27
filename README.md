@@ -85,8 +85,6 @@ Websites for reference:
   - https://www.youtube.com/watch?v=c3482qAzZLQ     - Not using free version of Vstudio, but good git
                                                         command-line ref anyway
 
-- Tesing git on RPI
-- Testing python extension
 
 __________________________________________________________________________________________________________________________
 
