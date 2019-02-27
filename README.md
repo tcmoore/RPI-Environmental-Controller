@@ -73,6 +73,11 @@ Websites for reference:
   - https://github.com/blynkkk/blynk-server#quick-local-server-setup-on-raspberry-pi    - install local Blynk server on RPI
   - https://github.com/switchdoclabs/SDL_Pi_SmartGardenSystem                           - garden system python code using Blynk
 
+- Running Ardiuno Sketches C++ (Programs) on RPI using the Arduino IDE installed on local computer.
+ - Compile C++ sketches in Arduino on local computer as a binary file that can be copied to the RPI and ran using $ sudo ./sketch.bin
+ 
+ - https://www.youtube.com/watch?v=lZvhtfUlY8Y
+ 
 - Using Free Visual Studio Code IDE with github
   - https://code.visualstudio.com//#built-in-git
   - https://code.visualstudio.com/docs/editor/versioncontrol
