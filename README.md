@@ -86,6 +86,8 @@ Websites for reference:
                                                         command-line ref anyway
 
 - Tesing git on RPI
+- Testing python extension
+
 __________________________________________________________________________________________________________________________
 
 License
