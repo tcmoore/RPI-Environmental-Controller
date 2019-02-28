@@ -64,7 +64,7 @@ How to clone existing github repo to the local repo
 3. Create/add/copy files to the local repo, then run command:
 	$ git add <file1> <file2>...			- adds files to the repo in the current folder
 	$ git commit -m "added new files"		- commits files & adds syntax
-	$ git git push origin master			- pushes local repo to github repo
+	$ git push origin master			- pushes local repo to github repo
 	
 How to clone existing github repo branch to the local repo
 --------------------------------------------------------
