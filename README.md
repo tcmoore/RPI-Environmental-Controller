@@ -1,5 +1,8 @@
 # RPI-Environmental-Controller
 
+**** TESTING CALLING FUNCTIONS FROM WITHIN MAIN CODE, USING PYTHON FILES FOR EACH FUNCTION  ****
+**** MASTER BRANCH USES NO PYTHON FILES & DOES ALL THE WORK IN THE MAIN CODE  ****
+
 This is my design of a Raspberry PI B Environmental Controller. It will be used in a 2'x2'x6' grow box.  This design will have many stages until completion.  Check documentation on this github repository for detailed descriptions of the design.
 
 Design goals are:
