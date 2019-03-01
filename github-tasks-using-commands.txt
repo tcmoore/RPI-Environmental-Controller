@@ -68,12 +68,12 @@ How to clone existing github repo to the local repo
 	
 How to clone existing github repo branch to the local repo
 --------------------------------------------------------
-1. cd into directory where cloned repo will go
+1. mkdir/cd into directory where cloned repo will go
 2. run: git clone -b <branch> <remote_repo>
 3. run: git config --global user.email "you@example.com"
 4. run: git config --global user.name "Your Name"
-5. run chown pi:pi -R <repo dirs)
-6. Should be able to commit locally and push to online repo
+5. should be able to commit locally and push to online repo
+6. run: git push origin testingV1
 
 
 to set your account's default identity.
