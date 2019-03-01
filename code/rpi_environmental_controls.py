@@ -30,7 +30,7 @@
 #	RPRISER 		RPI SERIAL
 
 #!/usr/bin/env python
-import current_date_time
+import datetime
 import grovepi
 import grovepi_plus_get_temp_humidity
 import grovepi_plus_get_soil_moisture
@@ -48,31 +48,9 @@ def main()
 	str atomizer_on = "OFF"
 	
 	# --------------Setup Hardware	---------------------
-	buzzer = 0
-	grovepi.pinMode(buzzer,"OUTPUT")  # Connect Smoke Alarm Buzzer to digital port D0
-	
-	gas_sensor = 1
-	grovepi.pinMode(gas_sensor,"INPUT") # Connect the Grove Gas Sensor to analog port A1
-	
-	atomizer = 3
-	grovepi.pinMode(atomizer,"OUTPUT") # Connect the Grove water atomizer to digital pin D3 on port D3
-	
 	light = 4
 	grovepi.pinMode(light,"OUTPUT") # Connect the Grove 2 ch relay (top relay) to digital pin D4 on port D4
 	
-	fan = 5
-	grovepi.pinMode(fan,"OUTPUT") # Connect the Grove 2 ch relay (bottom relay) to digital pin D5 on port D4
-	
-	temp_alarm_led = 6
-	grovepi.pinMode(temp_alarm_led,"OUTPUT")  # Connect Temperature Alarm LED to digital port D6
-
-	humid_alarm_led = 7
-	grovepi.pinMode(humid_alarm_led,"OUTPUT") # Connect Humidity Alarm LED to digital port D7
-	
-	moisture_alarm_led = 8
-	grovepi.pinMode(moisture_alarm_led,"OUTPUT") # Connect Moisture Alarm LED to digital port D8
-	
-	time.sleep(1)
 	
 	# --------------------------------------------------------------------
 	# Get Nominal Air Quality Value from MQ2 sensor
@@ -89,7 +67,7 @@ def main()
 		try:
 			# --------------------------------------------------------------------	
 			# Get current date & time
-			now = current_date_time.now
+			now = datetime.datetime.now()
 		 	print("Date/Time is ", now.strftime("%Y-%m-%d %I:%M"))
 
 			# --------------------------------------------------------------------
