@@ -2,8 +2,11 @@
 
 # Todd Moore
 # 3.4.19
-def save_valuse(now, temp, temp_alarm, humidity, humidity_alarm, moisture, moisture_alarm,
-				density, fan_on, atomizer_on)
+def save_valuse(now, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humidity_alarm, 
+				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm, 
+				fan_on, atomizer_on)
+
+
 Main()
 # Variables
 	CurrentDateTime 	=	CurrentDateTime;
