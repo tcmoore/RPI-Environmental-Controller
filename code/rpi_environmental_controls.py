@@ -34,49 +34,43 @@ import datetime
 import grovepi
 import grovepi_plus_get_temp_humidity
 import grovepi_plus_get_soil_moisture
-import check_alarms
 import grove_rgb_lcd
 
 def main()
 	# define the main() function
+	# ...
+	# Constants
+	LO_TEMP = 67
+	HI_TEMP = 76
+	LO_HUMID = 62
+	HI_HUMID = 80
+	LO_MOISTURE = 300
+	HI_MOISTURE = 700
+	
+
+	str temp_alarm = "OFF"
+	str humid_alarm = "OFF"
+	str moisture_alarm = "OFF"
+	str smoke_alarm = "OFF"
+	str fan_on = "OFF"
+	str atomizer_on = "OFF"
 	
 	# --------------Setup Hardware	---------------------
-	buzzer = 0
-	grovepi.pinMode(buzzer,"OUTPUT")  # Connect Smoke Alarm Buzzer to digital port D0
-	time.sleep(.5)
-		
-	gas_sensor = 1
-	grovepi.pinMode(gas_sensor,"INPUT") # Connect the Grove Gas Sensor to analog port A1
-	time.sleep(.5)
-	
-	temp_sensor = 2
-	grovepi.pinMode(temp_sensor,"INPUT") # Connect the Grove Temp/Humid Sensor to digital pin D2 on port D2
-	time.sleep(.5)
-
-	atomizer = 3
-	grovepi.pinMode(atomizer,"OUTPUT") # Connect the Grove Water Atomizer to digital pin D3 on port D3
-	time.sleep(.5)
-
 	light = 4
 	grovepi.pinMode(light,"OUTPUT") # Connect the Grove 2 ch relay (top relay) to digital pin D4 on port D4
-	time.sleep(.5)
 	
-	fan = 5
-	grovepi.pinMode(fan,"OUTPUT") # Connect the Grove 2 ch relay (bottom relay) to digital pin D5 on port D4
-	time.sleep(.5)
 	
-	temp_alarm_led = 6
-	grovepi.pinMode(temp_alarm_led,"OUTPUT")  # Connect Temperature Alarm LED to digital port D6
-	time.sleep(.5)		
-		
-	humid_alarm_led = 7
-	grovepi.pinMode(humid_alarm_led,"OUTPUT") # Connect Humidity Alarm LED to digital port D7
-	time.sleep(.5)
-		
-	moisture_alarm_led = 8
-	grovepi.pinMode(moisture_alarm_led,"OUTPUT") # Connect Moisture Alarm LED to digital port D8
-	time.sleep(.5)
-		
+	# --------------------------------------------------------------------
+	# Get Nominal Air Quality Value from MQ2 sensor
+	# Get sensor value
+        nominal_sensor_value = grovepi.analogRead(gas_sensor)
+
+        # Calculate gas density - large value means more dense gas
+        nominal_density = (float)(nominal_sensor_value / 1024.0)
+
+        print("nominal_sensor_value =", nominal_sensor_value, " nominal_density =", nominal_density)
+        time.sleep(.5)
+	
 	while True:
 		try:
 			# --------------------------------------------------------------------	
@@ -89,32 +83,15 @@ def main()
 			# Fahrenheit = 9.0/5.0 * Celsius + 32
 			temp = (9.0/5.0 * grovepi_plus_get_temp_humidity.temp) + 32))
 			humidity = grovepi_plus_get_temp_humidity.humidity
-			print("Temp is: ", temp," F - Humidity is: ",humidity,"%")
-			
-			# --------------------------------------------------------------------
-			# check for temp alarm
-			temp_alarm = check_alarms.check_temp(LO_TEMP, HI_TEMP, temp, temp_alarm_led)
-			print("Temp Alarm is ",temp_alarm)
-			
-			# --------------------------------------------------------------------
-			# check for humidity alarm
-			humid_alarm = check_alarms.check_humidity(LO_HUMID, HI_HUMID, humidity, humid_alarm_led)
-			print("Humid Alarm is ", humid_alarm)
-			
-			# --------------------------------------------------------------------
-			# Get Soil Moisture & check if there is an alarm
-			#   Here are suggested sensor values:
-			#       Min  Typ  Max  Condition
-			#       0    0    0    sensor in open air
-			#       0    20   300  sensor in dry soil
-			#       300  580  700  sensor in humid soil
-			#       700  940  950  sensor in water
 			moisture = grovepi_plus_get_soil_moisture.moisture
+			print("Temp is: ", temp," F - Humidity is: ",humidity,"% Moisture is: ", moisture)
 			
-			# check for soil moisture alarm
-			moisture_alarm = check_alarms.check_moisture(LO_MOISTURE, HI_MOISTURE, moisture, moisture_alarm_led)
-			print("Moisture Alarm is ",moisture_alarm)
-				
+			# --------------------------------------------------------------------
+			# check for alarms
+			temp_alarm = check_alarms.temp_alarm
+			humid_alarm = check_alarms.humid_alarm
+			moisture_alarm = check_alarms.moisture_alarm
+
 			# --------------------------------------------------------------------
 			# Get Air Quality Value from MQ2 sensor
 			# Get sensor value
@@ -124,10 +101,8 @@ def main()
         		print("sensor_value =", sensor_value, " density =", density)
         		time.sleep(.5)
 	
-			# check for smoke alarm
-			smoke_alarm = check_alarms.check_gas(HI_DENSITY, density, buzzer)
-			print("Smoke Alarm is ",smoke_alarm)
-			
+			# Still need to figure out alarm code 
+		
 			# --------------------------------------------------------------------
 			# Turn Fan on if temperature is too high or humidity is too high
 			if temp > 77 or humidity > 80:
@@ -149,16 +124,6 @@ def main()
 			print("Atomizer is ", atomizer_on)
 			
 			# --------------------------------------------------------------------
-			# Print values to std out console
-			print("Date/Time: ", now.strftime("%Y-%m-%d %I:%M"))
-   			print("Temp:",str(temp)," F - Alarm:",temp_alarm)
-			print("Humidity:",str(humidity),"% - Alarm:",humidity_alarm,"Atomizer is ",atomizer_on) 
-			print("Moisture: ", str(moisture)," - Alarm:",moisture_alarm)
-			print("Fan is ",fan_on)
-			print("Current Air Sensor=",sensor_value," density=",density)\
-			print(" ")
-			
-			# --------------------------------------------------------------------
 			# Display Environmental Data on LCD Screen
 			setRGB(0,128,64)
     			time.sleep(2)
@@ -172,6 +137,8 @@ def main()
     			time.sleep(5)
 			setText("Fan is ",fan_on)
     			time.sleep(5)
+			setText("Nominal Air Sensor=",nominal_sensor_value," Nominal Density=",nominal_density)
+			time.sleep(5)
 			setText("Current Air Sensor=",sensor_value," density=",density)
 			time.sleep(5)	
 			
