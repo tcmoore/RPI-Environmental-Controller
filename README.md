@@ -85,7 +85,9 @@ Websites for reference:
   - https://www.youtube.com/watch?v=c3482qAzZLQ     - Not using free version of Vstudio, but good git
                                                         command-line ref anyway
 
-
+- Python Code
+ - https://www.w3schools.com/python/default.asp
+ 
 __________________________________________________________________________________________________________________________
 
 License
