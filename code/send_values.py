@@ -5,7 +5,7 @@
 
 import grove_rgb_lcd
 
-def save_to_file(format_now, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humidity_alarm, 
+def save_to_file(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humidity_alarm, 
 				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm, 
 				fan_on, atomizer_on)
 	# Values will be added as tab seperated delimited data with the following format:
@@ -16,7 +16,7 @@ def save_to_file(format_now, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HU
 	filename = "/users/pi/values.txt"
 	
 	with open(filename, "a") as myfile: # appends the values, then automatically closes the file for me
-    myfile.write(format_now, "\t", temp, "\t", HI_TEMP, "\t", LO_TEMP, "\t", temp_alarm, "\t", humidity, "\t", HI_HUMID, "\t", LO_HUMID, "\t",
+    myfile.write(data_time, "\t", temp, "\t", HI_TEMP, "\t", LO_TEMP, "\t", temp_alarm, "\t", humidity, "\t", HI_HUMID, "\t", LO_HUMID, "\t",
 			humidity_alarm, "\t", moisture, "\t", HI_MOISTURE, "\t", LO_MOISTURE, "\t", moisture_alarm, "\t", density, "\t",
 			HI_DENSITY, "\t", smoke_alarm, "\t", fan_on, "\t", atomizer_on, "\n")
 
@@ -38,7 +38,7 @@ def print_to_stdio(format_now, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_
 	# hight density	1000	atomizer on	NO			
 
 	print("\n")
-	print("Date/Time	", format_now)
+	print("Date/Time	", data_time)
 	print("-------------------------------------------------------------------------------------------------------\n")
 	print("temp		", temp, "humidity		", humidity, "moisture		", moisture, "\n")
 	print("hi temp	", HI_TEMP, "hi humid	", HI_HUMID, "hi moisture	", HI_MOISTURE, "\n")
@@ -48,14 +48,14 @@ def print_to_stdio(format_now, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_
 	print("density		", density, "   fan on	", fan_on, "smoke alarm	", smoke_alarm, "\n")
 	print("hi density	", HI_DENSITY, "atomizer on	", atomizer_on)
 
-def print_to_LCD(format_now, temp, temp_alarm, humidity, humidity_alarm, moisture, moisture_alarm, density, smoke_alarm, 
+def print_to_LCD(data_time, temp, temp_alarm, humidity, humidity_alarm, moisture, moisture_alarm, density, smoke_alarm, 
 				fan_on, atomizer_on)
 
 	# --------------------------------------------------------------------
 	# Display Environmental Data on LCD Screen
 	setRGB(0,128,64)
     	time.sleep(1)
-	setText("Date/Time: ", format_now)
+	setText("Date/Time: ", data_time)
     	time.sleep(1)
 	setText("Temp:",str(temp)," F - Alarm:",temp_alarm)
     	time.sleep(1)

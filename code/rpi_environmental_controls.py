@@ -55,13 +55,15 @@ def main()
 	MOISTURE_ALARM_LED = 8
 
 	#Software constants
-	HI_TEMP = 80
-	LO_TEMP = 65
-	HI_HUMID = 85
-	LO_HUMID = 65
-	LO_MOISTURE = 300
-	HI_MOISTURE = 700
-	HI_DENSITY = 1000
+	HI_TEMP = 80	# max allowable temp
+	LO_TEMP = 65	# min allowable temp
+	HI_HUMID = 85	# max allowable humidity percentage
+	LO_HUMID = 65	# min allowable humidity percentage
+	HI_MOISTURE = 700	# max allowable soil moisture level
+	LO_MOISTURE = 300	# min allowable soil moisture level
+	HI_DENSITY = 1000	# max allowable air density
+	LIGHT_START = 5:00	# turn on light @ 5AM
+	LIGHT_STOP = 17:00	# turn off light @ 5PM
 
 	# --------------Setup Hardware	---------------------
 	setup_rpi(BUZZER, GAS_SENSOR, TEMP_SENSOR, ATOMIZER, LIGHT, FAN, TEMP_ALARM_LED, HUMID_ALARM_LED, MOISTURE_ALARM_LED)
@@ -70,10 +72,14 @@ def main()
 		try:
 			# --------------------------------------------------------------------	
 			# Get current date & time
-			now = datetime.datetime.now()
-			format_now = now.strftime("%Y-%m-%d %I:%M")
-		 	print("Date/Time is ", format_now)
+			data_time = datetime.datetime.now().strftime("%Y-%m-%d %I:%M")
+			print("Data Date/Time is ", data_time)
 
+			light_time = datetime.datetime.now().strftime("%H:%M")
+			print("Light Date/Time is ", light_time)
+
+			# --------------------------------------------------------------------	
+			# Get sesor data...
 			# Get Temperature & Humidity
 			# Fahrenheit = 9.0/5.0 * Celsius + 32
 			temp, humidity = get.temp()
@@ -116,23 +122,29 @@ def main()
 			atomizer_on = control.atomizer(humidity, atomizer)
 			print("Atomizer is ", atomizer_on)
 			
+			# turn on/off lights based on a certain time
+			light_on = control.light(light_time, LIGHT,LIGHT_START, LIGHT_STOP)
+			print("Light is ", light_on)
+			
 			# --------------------------------------------------------------------
 			# Print values to std out console
-			send_values.print_to_stdio(format_now, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humidity_alarm, 
+			send_values.print_to_stdio(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humidity_alarm, 
 				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm, 
 				fan_on, atomizer_on)
 			
 			# --------------------------------------------------------------------
 			# Append values to a file
-			send_values.save_to_file(format_now, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humidity_alarm, 
+			send_values.save_to_file(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humidity_alarm, 
 				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm, 
 				fan_on, atomizer_on)
 
 			# --------------------------------------------------------------------
 			# Display Environmental Data on LCD Screen
-			send_values.print_to_LCD(format_now, temp, temp_alarm, humidity, humidity_alarm, moisture, moisture_alarm, density, 
+			send_values.print_to_LCD(data_time, temp, temp_alarm, humidity, humidity_alarm, moisture, moisture_alarm, density, 
 				smoke_alarm, fan_on, atomizer_on)
 			
+		time.sleep(300)	# wait for 5 minutes before taking another set of data
+	
 # run main() function
 if __name__ == "__main__":
     main()
