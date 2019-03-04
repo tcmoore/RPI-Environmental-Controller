@@ -75,8 +75,13 @@ How to clone existing github repo branch to the local repo
 5. should be able to commit locally and push to online repo
 6. run: git push origin testingV1
 
-
-to set your account's default identity.
+Updating a local repository with changes from a Github repository
+-----------------------------------------------------------------
+1. run git pull origin <branch name>
+	ex. $ git pull origin testingV1
+	
+to set your account's default identity
+-----------------------------------------------------
 Omit --global to set the identity only in this repository.
 
 fatal: empty ident name (for <(null)>) not allowed
