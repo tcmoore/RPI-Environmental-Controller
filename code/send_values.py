@@ -5,25 +5,35 @@
 
 import grove_rgb_lcd
 
-def save_to_file(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humidity_alarm, 
+def save_to_file(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm, 
 				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm, 
 				fan_on, atomizer_on)
+	# ************	CODE IS WORKING IN SENSOR_TESTING FOLDER!!	************
+
 	# Values will be added as tab seperated delimited data with the following format:
 	# datetime <TAB> temp <TAB> hi temp <TAB> low temp <TAB> temp_alarm <TAB> humidity <TAB> hi humidity <TAB> low humidity
 	# <TAB> humidity alarm <TAB> moisture <TAB> hi moisture <TAB> low moisture <TAB> moisture alarm <TAB> density <TAB>
 	# hi density <TAB> smoke alarm <TAB> fan on <TAB> ataomizer on \n
 
-	filename = "/users/pi/values.txt"
-	
-	with open(filename, "a") as myfile: # appends the values, then automatically closes the file for me
-    myfile.write(data_time, "\t", temp, "\t", HI_TEMP, "\t", LO_TEMP, "\t", temp_alarm, "\t", humidity, "\t", HI_HUMID, "\t", LO_HUMID, "\t",
-			humidity_alarm, "\t", moisture, "\t", HI_MOISTURE, "\t", LO_MOISTURE, "\t", moisture_alarm, "\t", density, "\t",
-			HI_DENSITY, "\t", smoke_alarm, "\t", fan_on, "\t", atomizer_on, "\n")
+	filename = "/home/pi/RPI-Environmental-Controller/testingV1-Branch/RPI-Environmental-Controller/values.txt"
+
+	# concatenate data into 1 string argument
+	values = data_time + "\t" + str(temp) + "\t" + str(HI_TEMP) + "\t" + str(LO_TEMP) + "\t" + humid_alarm + "\t"\
+		+ str(moisture) + "\t" + str(HI_MOISTURE) + "\t", str(LO_MOISTURE) + "\t" + moisture_alarm + "\t" + str(density) + "\t"\
+		+ str(HI_DENSITY) + "\t" + smoke_alarm + "\t" + fan_on + "\t" + atomizer_on + "\n"
+
+	print(values)
+
+	# appends the values, then automatically closes the file for me
+	with open(filename, "a") as myfile: 
+    	myfile.writelines(values)
 
 # -----------------------------------------------------------------------------------------------------------------
 def print_to_stdio(format_now, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humidity_alarm, 
 				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm, 
 				fan_on, atomizer_on)
+
+	# ************	CODE IS WORKING IN SENSOR_TESTING FOLDER!!	************
 
 	# STDIO format is:
 	#
@@ -38,15 +48,14 @@ def print_to_stdio(format_now, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_
 	# hight density	1000	atomizer on	NO			
 
 	print("\n")
-	print("Date/Time	", data_time)
-	print("-------------------------------------------------------------------------------------------------------\n")
-	print("temp		", temp, "humidity		", humidity, "moisture		", moisture, "\n")
-	print("hi temp	", HI_TEMP, "hi humid	", HI_HUMID, "hi moisture	", HI_MOISTURE, "\n")
-	print("low temp	", LO_TEMP,	"low humid	", LO_HUMID, "low moisture	", LO_MOISTURE, "\n")
-	print("temp alarm	", temp_alarm, "humid alarm	", humidity_alarm, "moisture alarm	", moisture_alarm, "\n")
+	print("Date/Time	" + data_time)
+	print("-------------------------------------------------------------------------------------------------------")
+	print("temp \t" +"\t" + str(temp) + "\t" + "humidity \t" + str(humidity) + "\t" + "moisture \t" + str(moisture))
+	print("hi temp \t" + str(HI_TEMP) + "\t" + "hi humid \t" + str(HI_HUMID) + "\t" + "hi moisture \t" + str(HI_MOISTURE))
+	print("low temp \t" + str(LO_TEMP) + "\t" + "low humid \t" + str(LO_HUMID) + "\t" + "low moisture \t" + str(LO_MOISTURE))
 	print("\n")
-	print("density		", density, "   fan on	", fan_on, "smoke alarm	", smoke_alarm, "\n")
-	print("hi density	", HI_DENSITY, "atomizer on	", atomizer_on)
+	print("density \t" + str(density) + "\t" + "fan on \t" + fan_on + "\t" + "smoke alarm \t" + smoke_alarm)
+	print("hi density \t" + str(HI_DENSITY) + "\t" + "atomizer on \t" + atomizer_on)
 
 def print_to_LCD(data_time, temp, temp_alarm, humidity, humidity_alarm, moisture, moisture_alarm, density, smoke_alarm, 
 				fan_on, atomizer_on)
