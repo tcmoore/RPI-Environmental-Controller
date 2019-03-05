@@ -26,12 +26,12 @@ BLYNK_AUTH = '9f4faa38d423494fb9c711144e5fea1f'
 blynk = BlynkLib.Blynk(BLYNK_AUTH)
 
 # Register virtual pin handler
+@blynk.VIRTUAL_READ(2)
 @blynk.VIRTUAL_READ(3)
 def v2_read_handler():
     mytime = datetime.datetime.now().strftime('%H:%M:%S')
-    print(mytime)
     # This widget will show some time in seconds..
+    blynk.virtual_write(2, mytime)
     blynk.virtual_write(3, mytime)
-
 while True:
     blynk.run()
