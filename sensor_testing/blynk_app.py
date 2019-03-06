@@ -64,6 +64,7 @@ def v2_read_handler():
     else:
         smoke_led = 0
     mytime = datetime.datetime.now().strftime('%H:%M:%S')
+    # mytime = datetime.datetime.now().strftime("%Y-%m-%d %I:%M")
     # This widget will show some time in seconds..
     blynk.virtual_write(0, mytime) 
     blynk.virtual_write(1, str(temp))
