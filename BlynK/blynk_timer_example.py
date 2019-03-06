@@ -18,7 +18,7 @@ as you can add multiple functions to it
 import BlynkLib
 from BlynkTimer import BlynkTimer
 
-BLYNK_AUTH = '9f4faa38d423494fb9c711144e5fea1f'
+BLYNK_AUTH = 'YourAuthToken'
 
 # Initialize Blynk
 blynk = BlynkLib.Blynk(BLYNK_AUTH)
@@ -38,8 +38,8 @@ def print_me():
 
 
 # Add Timers
-timer.set_timeout(5, hello_world)
-timer.set_interval(10, print_me)
+timer.set_timeout(2, hello_world)
+timer.set_interval(5, print_me)
 
 
 while True:
