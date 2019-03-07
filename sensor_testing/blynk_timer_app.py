@@ -17,13 +17,19 @@ In your Blynk App project:
 It will automagically call v2_read_handler.
 Calling virtual_write updates widget value.
 """
+
+# *********** TIMER WORKS PUSHING TEMP EVERY 5 SECONDS
+# *********** NEED TO FIGURE OUT HOW TO PASS THE CONSTANTS
+# *********** FROM OUTSIDE THE SCOPE OF THIS MODULE
+
 import datetime
 import BlynkLib
+from BlynkTimer import BlynkTimer
 
 # data to send to blynk
-temp = 75
-HI_TEMP = 80	# max allowable temp
-LO_TEMP = 65	# min allowable temp
+
+HI_TEMP = 90	# max allowable temp
+LO_TEMP = 30	# min allowable temp
 temp_alarm = "YES"
 humidity = 75
 HI_HUMID = 85	# max allowable humidity percentage
@@ -43,6 +49,9 @@ BLYNK_AUTH = '9f4faa38d423494fb9c711144e5fea1f'
 
 # Initialize Blynk
 blynk = BlynkLib.Blynk(BLYNK_AUTH)
+
+# Create BlynkTimer Instance
+timer = BlynkTimer()
 
 # Register virtual pin handler
 @blynk.VIRTUAL_READ(0)  # time value
@@ -64,6 +73,8 @@ def v2_read_handler():
     else:
         smoke_led = 0
     mytime = datetime.datetime.now().strftime('%H:%M:%S')
+    print(mytime)
+    temp = 50
     # mytime = datetime.datetime.now().strftime("%Y-%m-%d %I:%M")
     # This widget will show some time in seconds..
     blynk.virtual_write(0, mytime) 
@@ -79,6 +90,12 @@ def v2_read_handler():
     # blynk.virtual_write(10, str(density))
     # blynk.virtual_write(11, str(HI_DENSITY))
     blynk.virtual_write(12, smoke_led)
+    temp = temp + 1
+    
 
-# while True:
-#     blynk.run()
+# Add Timers
+timer.set_interval(5, v2_read_handler)
+
+while True:
+    blynk.run()
+    timer.run()
