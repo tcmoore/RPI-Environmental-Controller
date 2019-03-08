@@ -14,7 +14,7 @@
 import grovepi
 import grovepi_plus_get_soil_moisture
 
-def main()
+def main():
 
       # --------------------------------------------------------------------
 			# Get Soil Moisture & check if there is an alarm
