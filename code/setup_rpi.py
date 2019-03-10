@@ -1,4 +1,13 @@
-main(BUZZER, GAS_SENSOR, TEMP_SENSOR, ATOMIZER, LIGHT, FAN, TEMP_ALARM_LED, HUMID_ALARM_LED, MOISTURE_ALARM_LED)
+# setup_rpi
+# Todd Moore
+# 3.9.19
+
+# sets up the RPI & GrovePi+ Hat hardware inputs & outputs
+
+import time
+import grovepi
+
+def hardware(BUZZER, GAS_SENSOR, TEMP_SENSOR, ATOMIZER, LIGHT, FAN, TEMP_ALARM_LED, HUMID_ALARM_LED, MOISTURE_ALARM_LED):
     
     # setup RPI/GrovePi+ hardware pins
     # --------------Setup Hardware	---------------------

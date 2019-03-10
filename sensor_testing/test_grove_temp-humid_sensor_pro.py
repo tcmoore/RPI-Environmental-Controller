@@ -14,12 +14,12 @@
 import grovepi
 import grovepi_plus_get_temp_humidity
 
-def main()
+def main():
 
       # --------------------------------------------------------------------
 			# Get Temperature & Humidity
 			# Fahrenheit = 9.0/5.0 * Celsius + 32
-			temp = (9.0/5.0 * grovepi_plus_get_temp_humidity.temp) + 32))
+			temp = 9.0/5.0 * (grovepi_plus_get_temp_humidity.temp) + 32
 			humidity = grovepi_plus_get_temp_humidity.humidity
 			print("Temp is: ", temp," F - Humidity is: ",humidity,"%")
       
