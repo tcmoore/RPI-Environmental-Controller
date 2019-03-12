@@ -6,7 +6,7 @@
  
 import grove_rgb_lcd
 
-def save_to_file(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm, 
+def save_to_file(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm, 
 				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm, 
 				fan_on, atomizer_on):
 
@@ -20,7 +20,7 @@ def save_to_file(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUM
 	filename = "/home/pi/RPI-Environmental-Controller/testingV1-Branch/RPI-Environmental-Controller/values.txt"
 
 	# concatenate data into 1 string argument
-	values = data_time + "\t" + str(temp) + "\t" + str(HI_TEMP) + "\t" + str(LO_TEMP) + "\t" + humid_alarm + "\t"\
+	values = data_time + "\t" + str(tempF) + "\t" + str(HI_TEMP) + "\t" + str(LO_TEMP) + "\t" + humid_alarm + "\t"\
 		+ str(moisture) + "\t" + str(HI_MOISTURE) + "\t", str(LO_MOISTURE) + "\t" + moisture_alarm + "\t" + str(density) + "\t"\
 		+ str(HI_DENSITY) + "\t" + smoke_alarm + "\t" + fan_on + "\t" + atomizer_on + "\n"
 
@@ -32,7 +32,7 @@ def save_to_file(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUM
 		myfile.writelines(values)
 
 # -----------------------------------------------------------------------------------------------------------------
-def print_to_stdio(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm, 
+def print_to_stdio(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm, 
 				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm, 
 				fan_on, atomizer_on):
 
@@ -42,20 +42,25 @@ def print_to_stdio(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_H
 	#
 	# Date/Time: 	05/17/2019 05:27:00	
 	#--------------------------------------------------------------
-	# temp			70		humidity	70		moisture		500
-	# hi temp		80		hi humid	80		hi moisture		700
-	# low temp		65		low humid	60		low moisture	300
-	# temp alarm	NO		humid alarm	NO		moisture alarm	NO
+	# temp alarm	NO		humid alarm	NO		moisture alarm	HUMID	smoke_alarm	NO
+	# temp			70		humidity	70		moisture		500		density		800
+	# hi temp		80		hi humid	80								hi density	1000
+	# low temp		65		low humid	60		
 	#							
-	# density		800		fan on		NO		smoke_alarm		NO
-	# hight density	1000	atomizer on	NO			
+	# fan on		NO		
+	# atomizer on	NO			
 
 	print("\n")
 	print("Date/Time	" + data_time)
 	print("-------------------------------------------------------------------------------------------------------")
-	print("temp \t" +"\t" + str(temp) + "\t" + "humidity \t" + str(humidity) + "\t" + "moisture \t" + str(moisture))
+	print("temp alarm \t" + temp_alarm + "humid alarm \t" + humid_alarm + "\t" = "moisture alarm \t" + moisture_alarm + "\t" + "smoke alarm \t" + smoke_alarm)
+	print("temp \t") + "\t" + "\t" + str(temp) + "\t" + "humidity \t" + "\t" + str(humidity) + "\t" + "moisture \t" + str(moisture) + "\t" + "density \t" + str(density))
 	print("hi temp \t" + str(HI_TEMP) + "\t" + "hi humid \t" + str(HI_HUMID) + "\t" + "hi moisture \t" + str(HI_MOISTURE))
 	print("low temp \t" + str(LO_TEMP) + "\t" + "low humid \t" + str(LO_HUMID) + "\t" + "low moisture \t" + str(LO_MOISTURE))
+	
+	
+	 str(tempF) + "\t" + "humidity \t" + str(humidity) + "\t" + "moisture \t" + str(moisture))
+	print("temp \t" +"\t" + str(tempF) + "\t" + "humidity \t" + str(humidity) + "\t" + "moisture \t" + str(moisture))
 	print("\n")
 	print("density \t" + str(density) + "\t" + "fan on \t" + fan_on + "\t" + "smoke alarm \t" + smoke_alarm)
 	print("hi density \t" + str(HI_DENSITY) + "\t" + "atomizer on \t" + atomizer_on)
