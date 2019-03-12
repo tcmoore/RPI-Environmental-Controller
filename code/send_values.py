@@ -6,9 +6,8 @@
  
 import grove_rgb_lcd
 
-def save_to_file(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm, 
-				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm, 
-				fan_on, atomizer_on):
+def save_to_file(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm,
+				moisture, moisture_alarm, density, HI_DENSITY, smoke_alarm, fan_on, atomizer_on):
 
 	# ************	CODE IS WORKING!!	************
 
@@ -32,38 +31,33 @@ def save_to_file(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HU
 		myfile.writelines(values)
 
 # -----------------------------------------------------------------------------------------------------------------
-def print_to_stdio(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm, 
-				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm, 
-				fan_on, atomizer_on):
+def print_to_stdio(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm,
+				moisture, moisture_alarm, density, HI_DENSITY, smoke_alarm, fan_on, atomizer_on):
 
-	# ************	CODE IS WORKING!!	************
+	# ************	 	************
 
+	#clear the screen
+	clear = lambda: os.system('clear')
+	
 	# STDIO format is:
 	#
 	# Date/Time: 	05/17/2019 05:27:00	
 	#--------------------------------------------------------------
-	# temp alarm	NO		humid alarm	NO		moisture alarm	HUMID	smoke_alarm	NO
+	# temp alarm	NO		humid alarm	NO		moisture alarm	PERFECT	smoke_alarm	NO
 	# temp			70		humidity	70		moisture		500		density		800
 	# hi temp		80		hi humid	80								hi density	1000
 	# low temp		65		low humid	60		
 	#							
-	# fan on		NO		
-	# atomizer on	NO			
+	# fan on		NO		atomizer on	NO	
 
-	print("\n")
 	print("Date/Time	" + data_time)
 	print("-------------------------------------------------------------------------------------------------------")
-	print("temp alarm \t" + temp_alarm + "humid alarm \t" + humid_alarm + "\t" = "moisture alarm \t" + moisture_alarm + "\t" + "smoke alarm \t" + smoke_alarm)
-	print("temp \t") + "\t" + "\t" + str(temp) + "\t" + "humidity \t" + "\t" + str(humidity) + "\t" + "moisture \t" + str(moisture) + "\t" + "density \t" + str(density))
-	print("hi temp \t" + str(HI_TEMP) + "\t" + "hi humid \t" + str(HI_HUMID) + "\t" + "hi moisture \t" + str(HI_MOISTURE))
-	print("low temp \t" + str(LO_TEMP) + "\t" + "low humid \t" + str(LO_HUMID) + "\t" + "low moisture \t" + str(LO_MOISTURE))
-	
-	
-	 str(tempF) + "\t" + "humidity \t" + str(humidity) + "\t" + "moisture \t" + str(moisture))
-	print("temp \t" +"\t" + str(tempF) + "\t" + "humidity \t" + str(humidity) + "\t" + "moisture \t" + str(moisture))
+	print("temp alarm \t" + temp_alarm + "humid alarm \t" + humid_alarm + "\t" + "moisture alarm \t" + moisture_alarm + "\t" + "smoke alarm \t" + smoke_alarm)
+	print("temp \t" + "\t" + "\t" + str(tempF) + "\t" + "humidity \t" + "\t" + str(humidity) + "\t" + "moisture \t" + str(moisture) + "\t" + "density \t" + str(density))
+	print("hi temp \t" + str(HI_TEMP) + "\t" + "hi humid \t" + str(HI_HUMID) + "\t\t\t\t\t" + "hi density \t" + str(HI_DENSITY))
+	print("low temp \t" + str(LO_TEMP) + "\t" + "low humid \t" + str(LO_HUMID))
 	print("\n")
-	print("density \t" + str(density) + "\t" + "fan on \t" + fan_on + "\t" + "smoke alarm \t" + smoke_alarm)
-	print("hi density \t" + str(HI_DENSITY) + "\t" + "atomizer on \t" + atomizer_on)
+	print("fan on \t" + fan_on + "\t" + "atomizer on \t" + atomizer_on)
 
 def print_to_LCD(data_time, temp, temp_alarm, humidity, humidity_alarm, moisture, moisture_alarm, density, smoke_alarm, 
 				fan_on, atomizer_on):
@@ -105,19 +99,17 @@ if __name__ == "__main__":
 	LO_HUMID = 65	# min allowable humidity percentage
 	humid_alarm = "YES"
 	moisture = 400
-	HI_MOISTURE = 700	# max allowable soil moisture level
-	LO_MOISTURE = 300	# min allowable soil moisture level
-	moisture_alarm = "YES"
+	moisture_alarm = "PERFECT"
 	density = 800
 	HI_DENSITY = 1000	# max allowable air density
 	smoke_alarm = "YES"
 	fan_on = "YES"
 	atomizer_on = "YES"
-	save_to_file(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm, 
-				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm, 
+	save_to_file(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm,
+				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm,
 				fan_on, atomizer_on)
-	print_to_stdio(data_time, temp, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm, 
-				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm, 
+	print_to_stdio(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm,
+				moisture, HI_MOISTURE,LO_MOISTURE, moisture_alarm, density, HI_DENSITY, smoke_alarm,
 				fan_on, atomizer_on)
-	# print_to_LCD(data_time, temp, temp_alarm, humidity, humidity_alarm, moisture, moisture_alarm, density, smoke_alarm, 
+	# print_to_LCD(data_time, temp, temp_alarm, humidity, humidity_alarm, moisture, moisture_alarm, density, smoke_alarm,
 	# 			fan_on, atomizer_on)

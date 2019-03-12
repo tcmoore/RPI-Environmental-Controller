@@ -104,7 +104,7 @@ while True:
 	# 		18-424  sensor in dry soil
 	# 		425-689 sensor in humid soil
 	# 		690+  	sensor in water
-	moisture_level = get.moisture(MOISTURE_SENSOR)
+	moisture = get.moisture(MOISTURE_SENSOR)
 					
 	# Get Air Quality Value from MQ2 sensor
 	density = get.air(GAS_SENSOR)
@@ -112,7 +112,7 @@ while True:
 	# check for alarms
 	temp_alarm = check_alarms.check_temp(LO_TEMP, HI_TEMP, tempF, TEMP_ALARM_LED)
 	humid_alarm = check_alarms.check_humidity(LO_HUMID, HI_HUMID, humidity, HUMID_ALARM_LED)
-	moisture_alarm = check_alarms.check_moisture(moisture_level, MOISTURE_ALARM_LED)
+	moisture_alarm = check_alarms.check_moisture(moisture, MOISTURE_ALARM_LED)
 	smoke_alarm = check_alarms.check_gas(HI_DENSITY, density, BUZZER)
 			
 	# Turn Fan on if temperature is too high or humidity is too high
@@ -125,15 +125,15 @@ while True:
 	light_on = control.light(light_time, LIGHT, LIGHT_START, LIGHT_STOP)
 
 	# Append values to a file
-	send_values.save_to_file(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm, 
-	moisture, moisture_alarm, density, HI_DENSITY, smoke_alarm, fan_on, atomizer_on)
+	send_values.save_to_file(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm,
+				moisture, moisture_alarm, density, HI_DENSITY, smoke_alarm, fan_on, atomizer_on)
 
 	# Print values to std out console
 	send_values.print_to_stdio(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm,
-		moisture_level, moisture_alarm, density, HI_DENSITY, smoke_alarm, fan_on, atomizer_on)
-			
+				moisture, moisture_alarm, density, HI_DENSITY, smoke_alarm, fan_on, atomizer_on)
+
 	# Display Environmental Data on LCD Screen
-	send_values.print_to_LCD(data_time, tempF, temp_alarm, humidity, humid_alarm, moisture_level, moisture_alarm, density,
+	send_values.print_to_LCD(data_time, tempF, temp_alarm, humidity, humid_alarm, moisture, moisture_alarm, density,
 		smoke_alarm, fan_on, atomizer_on)
 			
 	time.sleep(300)	# wait for 5 minutes before taking another set of data
