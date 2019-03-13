@@ -1,8 +1,8 @@
 # Raspberry Pi Environmental Controls For My Growbox Design
 # Todd Moore
-# 12.22.18
+# 3.12.19
 
-# code that measures temp, humidity, & soil moisture, sets alarms, saves alarm data, increases humidity in growbox,
+# code that measures temp, humidity, & soil moisture (for 2 plants), sets alarms, saves alarm data, increases humidity in growbox,
 # & displays environmental data on an RGB LCD & webpage.
 
 # Code is compatible with Python 2.7 and Python 3.5.
@@ -10,24 +10,31 @@
 # Code is for Raspberry Pi with the GrovePi+ hat attached to the GPIO connector.
 
 # RPI/Grove Pinout Definitions
-#	Port# 	Pin on Port# 	Type			Sensor/Module
-#	---------------------------------------------------------------
-#	SERIAL		D0			DIGITAL & SERIAL	Grove Buzzer
-#	D2 			D2	 		DIGITAL 			Grove - Temperature&Humidity Sensor Pro
-#	D3 			D3	 		DIGITAL 			Grove - Water Atomization
-#	D4 			D4 & D5	 	DIGITAL 			Grove - 2-Channel SPDT Switch 1, Top Connector,LED Lights
-#												Grove - 2-Channel SPDT Switch 1, Bottom Connector, Exhaust Fan
-#	D5 			D5 & D6 	DIGITAL 			-
-#	D6 			D6	 		DIGITAL 			Temp Alarm LED
-#	D7 			D7	 		DIGITAL 			Humid Alarm LED
-#	D8 			D8	 		DIGITAL 			Moisture Alarm LED
-#	A0 	A		0 & A1 		ANALOG 				-
-#	A1 			A1	 		ANALOG				Grove MQ2 Air Sensor
-#	A2			A2 			ANALOG 				Grove - Moisture Sensor
-#	I2C-1 		I2C 			-
-#	I2C-2 		I2C 			-
-#	I2C-3 		I2C 							Grove - LCD RGB Backlight
-#	RPRISER 	RPI SERIAL
+
+#	Port #	Pins on Port #	Type				Sensor Pin	Sensor/Module
+#	-----------------------------------------------------------------------------------------
+#	SERIAL	D0 & D1			DIGITAL & SERIAL	D0			Grove - 2-Channel SPDT Switch 1 (Top 
+# 																	Connector) – LED Lights
+#												D1			Grove - 2-Channel SPDT Switch 1 (Bottom
+# 																	 Connector) – Exhaust Fan
+# 	D2		D2 & D3			DIGITAL				D2			Grove Buzzer
+#	D3		D3 & D4			DIGITAL				D3			Temp Alarm LED
+#												D4			Humid Alarm LED
+#	D4		D4 & D5			DIGITAL				n/a
+#	D5		D5 & D6			DIGITAL				D5			Smoke Alarm LED
+# 	D6		D6 & D7			DIGITAL				D6			Grove - Temperature&Humidity Sensor Pro
+#	D7		D7 & D8			DIGITAL				D7			Grove - Water Atomization
+#	D8		D8 & D9			DIGITAL				D8			Moisture Alarm LED
+#												D9			Water Atomizer LED
+#					
+#	A0		A0 & A1			ANALOG				A0			Grove - Moisture Sensor1
+#	A1		A1 & A2			ANALOG				A1			Grove - Moisture Sensor2
+#	A2		A2 & A3			ANALOG				A2			Grove MQ2 Air Sensor
+#
+# 	I2C-1	I2C												Free
+#	I2C-2	I2C												Free
+#	I2C-3	I2C												Grove - LCD RGB Backlight
+#	RPRISER					RPI SERIAL			
 
 #!/usr/bin/env python
 import datetime
@@ -40,7 +47,7 @@ import send_values
 
 # --------------Setup Constants	---------------------
 # GrovePi+ Hat Digital Pin Constants
-BUZZER = 0
+BUZZER = 0			
 TEMP_SENSOR = 2
 ATOMIZER = 3
 LIGHT = 4
