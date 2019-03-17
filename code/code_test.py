@@ -12,11 +12,11 @@
 # Code is for Raspberry Pi with the GrovePi+ hat attached to the GPIO connector.
 
 # RPI/Grove Pinout Definitions
-# Port# 	Pin on Port# 	Type			Sensor/Module
+# Port#     Pin on Port#    Type            Sensor/Module
 # ---------------------------------------------------------------
-# SERIAL	D0	 	DIGITAL & SERIAL	Grove Buzzer
-# D2 	D2	 	DIGITAL 		Grove - Temperature&Humidity Sensor Pro
-# D3 	D3	 	DIGITAL 		Grove - Water Atomization
+# SERIAL    D0      DIGITAL & SERIAL    Grove Buzzer
+# D2    D2      DIGITAL         Grove - Temperature&Humidity Sensor Pro
+# D3    D3      DIGITAL         Grove - Water Atomization
 #               Grove - 2-Channel SPDT Switch 1 (Bottom Connector) - Exhaust Fan
 #                               Grove 2-Channel SPDT Switch 1 (Bottom Connector) Exhaust Fan
 
@@ -30,13 +30,13 @@ import datetime
 #import grove_rgb_lcd
 
 #def foo():
-	# define the main() function
+    # define the main() function
     # while True:
-	#     try:
-	#         # ----------------------------------------	
-	#         # Get current date & time
-	#         data_time = datetime.datetime.now().strftime("%Y-%m-%d %I:%M")
-	#         print("Data Date/Time is ", data_time)
+    #     try:
+    #         # ----------------------------------------    
+    #         # Get current date & time
+    #         data_time = datetime.datetime.now().strftime("%Y-%m-%d %I:%M")
+    #         print("Data Date/Time is ", data_time)
 
 # run main() function
 #if __name__ == "__main__":

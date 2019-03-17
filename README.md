@@ -89,7 +89,9 @@ Websites for reference:
   - https://www.youtube.com/watch?v=c3482qAzZLQ     - Not using free version of Vstudio, but good git
                                                         command-line ref anyway
 
-
+- PEP 8 -- Style Guide for Python Code
+  - https://www.python.org/dev/peps/pep-0008/#tabs-or-spaces
+  
 __________________________________________________________________________________________________________________________
 
 License
