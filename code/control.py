@@ -4,16 +4,16 @@
 
 # control exhaust fan, water atomizer (humidifier), & lights
 
-import grovepi
+from grovepi import *
 
 def fan(temp, humidity, FAN_HI_TEMP, FAN_LOW_TEMP , FAN_HI_HUMID, FAN_LO_HUMID, FAN):
     # Turn Fan on if temperature is too high or humidity is too high
     if FAN_HI_TEMP > temp > FAN_LO_TEMP:
         fan_on = "OFF"  # turn off exhaust fan led
-        grovepi.digitalWrite(FAN, 0)     # turn off exhaust fan   
+        digitalWrite(FAN, 0)     # turn off exhaust fan   
     else:
         fan_on = "ON"   # turn on exhaust fan led
-        grovepi.digitalWrite(FAN, 1)     # turn on exhaust fan        
+        digitalWrite(FAN, 1)     # turn on exhaust fan        
     print("Fan is ",fan_on)
     print("fan done")
     return fan_on
@@ -22,12 +22,12 @@ def atomizer(humidity, ATOMIZER, ATOMIZER_LO_HUMIDITY, ATOMIZER_ON_LED):
     # turn on water atomizer if humidity is too low
     if humidity <   ATOMIZER_LO_HUMIDITY:
         atomizer_on = "ON"
-        grovepi.digitalWrite(ATOMIZER, 1)     # turn on atomizer 
-        grovepi.digitalWrite(ATOMIZER_ON_LED, 1)     # turn on 'atomizer on' led
+        digitalWrite(ATOMIZER, 1)     # turn on atomizer 
+        digitalWrite(ATOMIZER_ON_LED, 1)     # turn on 'atomizer on' led
     else:
         atomizer_on = "OFF"
-        grovepi.digitalWrite(ATOMIZER, 0)     # turn off atomizer 
-        grovepi.digitalWrite(ATOMIZER_ON_LED, 0)     # turn off 'atomizer on' led
+        digitalWrite(ATOMIZER, 0)     # turn off atomizer 
+        digitalWrite(ATOMIZER_ON_LED, 0)     # turn off 'atomizer on' led
     print("Atomizer is ", atomizer_on)
     print("atomizer done")
     return atomizer_on
@@ -37,10 +37,10 @@ def light(light_time, LIGHT, LIGHT_START, LIGHT_STOP):
     if LIGHT_STOP > light_time > LIGHT_START:
         light_on = "ON"
         print(LIGHT_START, LIGHT_STOP, light_time)
-        grovepi.digitalWrite(LIGHT, 1)     # turn on grow light
+        digitalWrite(LIGHT, 1)     # turn on grow light
     else:
         light_on = "OFF"
-        grovepi.digitalWrite(LIGHT, 0)     # turn off grow light
+        digitalWrite(LIGHT, 0)     # turn off grow light
     print("Lights are ", light_on)
     print("light done")
     return light_on
@@ -52,10 +52,17 @@ if __name__ == "__main__":
     import datetime
     # -------- Test Vectors ------------
     # Hardware constants
+    LIGHT = 0
+    FAN = 1
+    ATOMIZER = 7
     ATOMIZER_ON_LED = 8
-    ATOMIZER = 3
-    LIGHT = 4
-    FAN = 5
+
+    pinMode(LIGHT,"OUTPUT")
+    pinMode(FAN,"OUTPUT")
+    pinMode(ATOMIZER,"OUTPUT")
+    pinMode(ATOMIZER_ON_LED,"OUTPUT")
+    time.sleep(1)
+    
     #Software constants
     FAN_HI_TEMP = 80    # max allowable temp
     FAN_LO_TEMP = 65    # min allowable temp
@@ -66,7 +73,7 @@ if __name__ == "__main__":
     LIGHT_START = '15:00'
     LIGHT_STOP = '17:00'
     temp = 72
-    humidity = 64
+    humidity = 72
     light_time = datetime.datetime.now().strftime("%H:%M")
     print("Fan Hi Temp, & Fan Low Temp Vectors are: ", FAN_HI_TEMP, FAN_LO_TEMP)
     print("Fan High Humid, & Fan Low Humid Vectors are: ", FAN_HI_HUMID, FAN_LO_HUMID)
@@ -77,4 +84,4 @@ if __name__ == "__main__":
     print("Light Date/Time is ", light_time)
     print("Light Start Time & Stop time is: ", LIGHT_START, LIGHT_STOP)
     light(light_time, LIGHT, LIGHT_START, LIGHT_STOP)
-    
+ 

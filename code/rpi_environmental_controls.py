@@ -128,7 +128,7 @@ while True:
     fan_on = control.fan(tempF, humidity, FAN_HI_TEMP, FAN_LO_TEMP, FAN_HI_HUMID, FAN_LO_HUMID, FAN)
             
     # turn on water atomizer if humidity is too low
-    #atomizer_on = control.atomizer(humidity, ATOMIZER)
+    atomizer_on = control.atomizer(humidity, ATOMIZER, ATOMIZER_LO_HUMIDITY, ATOMIZER_ON_LED)
             
     # turn on/off lights based on a certain time
     light_on = control.light(light_time, LIGHT, LIGHT_START, LIGHT_STOP)
