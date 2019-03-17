@@ -9,19 +9,19 @@
 # coding=utf-8
 
 import time
+import grovepi
 
 # from \home\pi\GrovePi\Software\Python\grovepi import *
-
 
 def check_temp(LO_TEMP, HI_TEMP, temp, TEMP_ALARM_LED):
     # --------------------------------------------------------------------
     # check for temp alarm
     if HI_TEMP > temp > LO_TEMP:
         temp_alarm = "OFF"
-    #   # grovepi.digitalWrite(TEMP_ALARM_LED, 0)     # turn off temp alarm led 
+        grovepi.digitalWrite(TEMP_ALARM_LED, 0)     # turn off temp alarm led 
     else:
         temp_alarm = "ON"
-    #   # grovepi.digitalWrite(TEMP_ALARM_LED, 1)     # turn on temp alarm led      
+        grovepi.digitalWrite(TEMP_ALARM_LED, 1)     # turn on temp alarm led      
     print("Temp Alarm is ", temp_alarm)
     print("check_alarms.check_temp done")
     return temp_alarm
@@ -31,10 +31,10 @@ def check_humidity(LO_HUMID, HI_HUMID, humidity, HUMID_ALARM_LED):
     # check for humidity alarm
     if HI_HUMID > humidity > LO_HUMID:
         humid_alarm = "OFF"
-        # grovepi.digitalWrite(HUMID_ALARM_LED, 0)     # turn off humidity alarm led        
+        grovepi.digitalWrite(HUMID_ALARM_LED, 0)     # turn off humidity alarm led        
     else:
         humid_alarm = "ON"
-        # grovepi.digitalWrite(HUMID_ALARM_LED, 1)     # turn on humidity alarm led     
+        grovepi.digitalWrite(HUMID_ALARM_LED, 1)     # turn on humidity alarm led     
     print("Humid Alarm is ", humid_alarm)
     print("check_alarms.check_humidity done")
     return humid_alarm
@@ -60,19 +60,19 @@ def check_moisture(moisture, MOISTURE_ALARM_LED):
     # convert moisture value to human readable text 
     if 17 > moisture > 0:
         moisture_alarm = 'AIR'
-        digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause soil is VERY dry & needs watering!!
+        grovepi.digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause soil is VERY dry & needs watering!!
     elif 424 > moisture > 18:
         moisture_alarm = 'DRY'
-        digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause soil is dry & needs watering!!
+        grovepi.digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause soil is dry & needs watering!!
     elif 689 > moisture > 425:
         moisture_alarm = 'PERFECT'
-        digitalWrite(MOISTURE_ALARM_LED, 0)     # Turn off LED cause soil is JUST RIGHT!!
+        grovepi.digitalWrite(MOISTURE_ALARM_LED, 0)     # Turn off LED cause soil is JUST RIGHT!!
     elif moisture > 690:
         moisture_alarm = 'WATER'
-        digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause soil is WET!!!
+        grovepi.digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause soil is WET!!!
     else:
         moisture_alarm = 'BROKEN'
-        digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause sensor is broken!!
+        grovepi.digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause sensor is broken!!
     print("Moisture Alarm is ",moisture_alarm)
     print("check_alarms.check_moisture done")
     return moisture_alarm
