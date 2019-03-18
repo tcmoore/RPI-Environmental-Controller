@@ -2,11 +2,12 @@
 # Todd Moore
 # 3.9.19
 
+# ******** WORKING AS OF 3.17.19 *****
 # control exhaust fan, water atomizer (humidifier), & lights
 
 from grovepi import *
 
-def fan(temp, humidity, FAN_HI_TEMP, FAN_LOW_TEMP , FAN_HI_HUMID, FAN_LO_HUMID, FAN):
+def fan(temp, humidity, FAN_HI_TEMP, FAN_LO_TEMP , FAN_HI_HUMID, FAN_LO_HUMID, FAN):
     # Turn Fan on if temperature is too high or humidity is too high
     if FAN_HI_TEMP > temp > FAN_LO_TEMP:
         fan_on = "OFF"  # turn off exhaust fan led
@@ -52,10 +53,10 @@ if __name__ == "__main__":
     import datetime
     # -------- Test Vectors ------------
     # Hardware constants
-    LIGHT = 0
-    FAN = 1
+    ATOMIZER_ON_LED = 5
     ATOMIZER = 7
-    ATOMIZER_ON_LED = 8
+    LIGHT = 16  # uses A2 as digital channels 16 & 17
+    FAN = 17    # uses A2 as digital channels 16 & 17
 
     pinMode(LIGHT,"OUTPUT")
     pinMode(FAN,"OUTPUT")
@@ -71,9 +72,9 @@ if __name__ == "__main__":
     FAN_HI_MOISTURE = 700   # max allowable soil moisture level
     ATOMIZER_LO_HUMIDITY = 65   # humidity level water atomizer turns on
     LIGHT_START = '15:00'
-    LIGHT_STOP = '17:00'
-    temp = 72
-    humidity = 72
+    LIGHT_STOP = '16:00'
+    temp = 75
+    humidity = 75
     light_time = datetime.datetime.now().strftime("%H:%M")
     print("Fan Hi Temp, & Fan Low Temp Vectors are: ", FAN_HI_TEMP, FAN_LO_TEMP)
     print("Fan High Humid, & Fan Low Humid Vectors are: ", FAN_HI_HUMID, FAN_LO_HUMID)

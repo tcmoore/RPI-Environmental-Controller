@@ -1,9 +1,13 @@
 # Get data from Grove sensors
 # Todd Moore
-# 3.3.19
+# 3.17.19
 
+# code that gets values from grove sensors
+
+# ******** WORKING AS OF 3.17.19 *****
+#!/usr/bin/env python
+# coding=utf-8
 import grovepi
-import time
 
 def temp(TEMP_SENSOR, WHITE):
     try:
@@ -11,8 +15,8 @@ def temp(TEMP_SENSOR, WHITE):
         # The first parameter is the port, the second parameter is the type of sensor.
         [temp,humidity] = grovepi.dht(TEMP_SENSOR,WHITE) 
         # Convert to Fahrenheit = 9.0/5.0 * Celsius + 32
-        tempF = (9.0/5.0 * temp) + 32
-        print("Temp/Humidity is: ", temp, humidity)
+        tempF = (9/5 * temp) + 32
+        print("Temp/Humidity is: ", tempF, humidity)
         print("get.temp module done")
         return tempF, humidity
 
@@ -49,15 +53,13 @@ def air(GAS_SENSOR):
         # Get sensor value
         sensor_value = grovepi.analogRead(GAS_SENSOR)
         # Calculate gas density - large value means more dense gas
-        density = (float)(sensor_value / 1024.0)
+        density = (float)(sensor_value / 1024.0)*100
         print("sensor_value =", sensor_value, " density =", density)
         print("get.density done")
         return density
     
     except IOError:
         print ("Moisture Sensor Error")
-
-
 
 # run main() function
 if __name__ == "__main__":
@@ -66,16 +68,17 @@ if __name__ == "__main__":
     
     # -------- Test Vectors ------------
     # Hardware constants
-    GAS_SENSOR = 0  # Connect MQ2 to Analog port A0, pin 0
-    MOISTURE_SENSOR = 2 # Analog port A2, pin 2
-    TEMP_SENSOR = 2 # Digital pin D2, pin 2
+    # GrovePi+ Hat Analog Pin Constants
+    MOISTURE_SENSOR = 0
+    GAS_SENSOR = 1  
+    TEMP_SENSOR = 6
 
     #Software constants
     WHITE = 1  # The Temp Sensor covor color is white.
     
     tempF, humidity = temp(TEMP_SENSOR, WHITE)
-    moisture_level = moisture(MOISTURE_SENSOR)  
-    density = air(GAS_SENSOR)   
     print("Temp is: ", tempF," F - Humidity is: ",humidity,"%")
+    moisture_level = moisture(MOISTURE_SENSOR)  
     print("Soil Moisture is: ", moisture_level)
+    density = air(GAS_SENSOR)   
     print("Density is: ", density)

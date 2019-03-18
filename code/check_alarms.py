@@ -2,16 +2,13 @@
 # Todd Moore
 # 3.17.19
 
+# ******** WORKING AS OF 3.17.19 *****
 # code that checks temp, humidity, soil moisture, & sets alarms if too high or too low.
 # also checks Gas Density & sets smoke alarm if too high.
 
 #!/usr/bin/env python
 # coding=utf-8
-
-import time
-from grovepi import *
-
-# from \home\pi\GrovePi\Software\Python\grovepi import *
+from grovepi import digitalWrite
 
 def check_temp(LO_TEMP, HI_TEMP, temp, TEMP_ALARM_LED):
     # --------------------------------------------------------------------
@@ -58,16 +55,16 @@ def check_moisture(moisture, MOISTURE_ALARM_LED):
     # 690+    'WATER'
     
     # convert moisture value to human readable text 
-    if 17 > moisture > 0:
+    if 17 >= moisture >= 0:
         moisture_alarm = 'AIR'
-        digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause soil is VERY dry & needs watering!!
-    elif 424 > moisture > 18:
+        digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause soil is VERY dry & needs water!
+    elif 424 >= moisture >= 18:
         moisture_alarm = 'DRY'
-        digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause soil is dry & needs watering!!
-    elif 689 > moisture > 425:
+        digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause soil is dry & needs water!
+    elif 689 >= moisture >= 425:
         moisture_alarm = 'PERFECT'
         digitalWrite(MOISTURE_ALARM_LED, 0)     # Turn off LED cause soil is JUST RIGHT!!
-    elif moisture > 690:
+    elif moisture >= 690:
         moisture_alarm = 'WATER'
         digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause soil is WET!!!
     else:
@@ -77,14 +74,16 @@ def check_moisture(moisture, MOISTURE_ALARM_LED):
     print("check_alarms.check_moisture done")
     return moisture_alarm
         
-def check_gas(HI_DENSITY, density, BUZZER):
+def check_gas(HI_DENSITY, density, BUZZER, SMOKE_ALARM_LED):
     # check for smoke alarm
     if density < HI_DENSITY:
         smoke_alarm = "OFF"
         digitalWrite(BUZZER, 0)     # Turn off buzzer       
+        digitalWrite(SMOKE_ALARM_LED, 0)     # Turn off buzzer       
     else:
         smoke_alarm = "ON"
         digitalWrite(BUZZER, 1)     # Turn on buzzer
+        digitalWrite(SMOKE_ALARM_LED, 0)     # Turn off buzzer       
     print("Smoke Alarm is ",smoke_alarm)
     print("check_alarms.check_gas done")
     return smoke_alarm
@@ -96,30 +95,34 @@ if __name__ == "__main__":
     
     # -------- Test Vectors ------------
     # Hardware constants
-    BUZZER = 2
-    TEMP_ALARM_LED = 6
-    HUMID_ALARM_LED = 7
-    MOISTURE_ALARM_LED = 8
+    BUZZER = 2   
+    HUMID_ALARM_LED = 3
+    TEMP_ALARM_LED = 4
+    SMOKE_ALARM_LED = 8
+    MOISTURE_ALARM_LED = 9
+
     #Software constants
     HI_TEMP = 80    # max allowable temp
     LO_TEMP = 65    # min allowable temp
     HI_HUMID = 85   # max allowable humidity percentage
     LO_HUMID = 65   # min allowable humidity percentage
-    HI_MOISTURE = 700   # max allowable soil moisture level
-    LO_MOISTURE = 300   # min allowable soil moisture level
     HI_DENSITY = 1000   # max allowable air density
-    temp = 78
-    humidity = 90
-    moisture = 800
-    density = 66000
+    temp = 75
+    humidity = 80
+    moisture = 500
+    density = 800
     temp_alarm = check_temp(LO_TEMP, HI_TEMP, temp, TEMP_ALARM_LED)
-    print("High Temp, Low Temp, Temp, & Temp Alarm Vectors are: ", HI_TEMP, LO_TEMP, temp, temp_alarm)
+    print("High Temp, Low Temp, Temp, & Temp Alarm Vectors are: ", HI_TEMP, LO_TEMP, temp, 
+            temp_alarm)
     
     humid_alarm = check_humidity(LO_HUMID, HI_HUMID, humidity, HUMID_ALARM_LED)
-    print("High Humid, Low Humid, Humidity, & Humidity Alarm Vectors are: ", HI_HUMID, LO_HUMID, humidity, humid_alarm)
+    print("High Humid, Low Humid, Humidity, & Humidity Alarm Vectors are: ", HI_HUMID, LO_HUMID, 
+            humidity, humid_alarm)
     
     check_moisture(moisture, MOISTURE_ALARM_LED)
     print("Moisture is: ", moisture)
-    smoke_alarm = check_gas(HI_DENSITY, density, BUZZER)
-    print("High Density, Density, & Smoke Alarm Vectors are: ", HI_DENSITY, density, smoke_alarm)
+
+    smoke_alarm = check_gas(HI_DENSITY, density, BUZZER, SMOKE_ALARM_LED)
+    print("High Density, Density, & Smoke Alarm Vectors are: ", HI_DENSITY, density, 
+            smoke_alarm, SMOKE_ALARM_LED)
     

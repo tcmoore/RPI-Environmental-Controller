@@ -2,8 +2,8 @@
 # Todd Moore
 # 3.16.19
 
-# code that measures temp, humidity, & soil moisture (for 2 plants), sets alarms, saves alarm data, increases humidity in growbox,
-# & displays environmental data on an RGB LCD & webpage.
+# code that measures temp, humidity, & soil moisture (for 2 plants), sets alarms, saves alarm data, 
+# increases humidity in growbox,& displays environmental data on an RGB LCD & webpage.
 
 # Code is compatible with Python 2.7 and Python 3.5.
 
@@ -13,10 +13,7 @@
 
 #   Port #  Pins on Port #  Type                Sensor Pin  Sensor/Module
 #   -----------------------------------------------------------------------------------------
-#   SERIAL  D0 & D1         DIGITAL & SERIAL    D0          Grove - 2-Channel SPDT Switch 1 (Top 
-#                                                                   Connector) – LED Lights
-#                                               D1          Grove - 2-Channel SPDT Switch 1 (Bottom
-#                                                                    Connector) – Exhaust Fan
+#   SERIAL  D0 & D1         DIGITAL & SERIAL                n/a
 #   D2      D2 & D3         DIGITAL             D2          Grove Buzzer
 #   D3      D3 & D4         DIGITAL             D3          Humid Alarm LED
 #                                               D4          Temp Alarm LED
@@ -28,8 +25,11 @@
 #                                               D9          Moisture Alarm LED
 #                   
 #   A0      A0 & A1         ANALOG              A0          Grove - Moisture Sensor
-#   A1      A1 & A2         ANALOG              A1          
-#   A2      A2 & A3         ANALOG              A2          Grove MQ2 Air Sensor
+#   A1      A1 & A2         ANALOG              A1          Grove MQ2 Air Sensor
+#   A2      A2 & A3         ANALOG              D16         Grove - 2-Channel SPDT Switch 1,
+#                                                               LED Lights
+#                                               D17         Grove - 2-Channel SPDT Switch 2,
+#                                                               Exhaust Fan
 #
 #   I2C-1   I2C                                             Free
 #   I2C-2   I2C                                             Free
@@ -49,19 +49,20 @@ import send_values
 
 # --------------Setup Constants ---------------------
 # GrovePi+ Hat Digital Pin Constants
-LIGHT = 0
-FAN = 1
 BUZZER = 2          
 HUMID_ALARM_LED = 3
 TEMP_ALARM_LED = 4
+ATOMIZER_ON_LED = 5
 TEMP_SENSOR = 6
 ATOMIZER = 7
-ATOMIZER_ON_LED = 8
+SMOKE_ALARM_LED = 8
 MOISTURE_ALARM_LED = 9
+LIGHT = 16  # uses A2 as digital channels 16 & 17
+FAN = 17    # uses A2 as digital channels 16 & 17
 
 # GrovePi+ Hat Analog Pin Constants
-GAS_SENSOR = 2  # Connect MQ2 to Analog port A2, pin 2
 MOISTURE_SENSOR = 0
+GAS_SENSOR = 1  
 
 # temp_humidity_sensor_type
 # This represents the cover color of the sensor. I have the white type.
@@ -69,22 +70,22 @@ MOISTURE_SENSOR = 0
 WHITE = 1   # The White colored sensor.
 
 #Software constants
-HI_TEMP = 80    # max allowable temp
-LO_TEMP = 65    # min allowable temp
-HI_HUMID = 85   # max allowable humidity percentage
-LO_HUMID = 65   # min allowable humidity percentage
+HI_TEMP = 80.0    # max allowable temp
+LO_TEMP = 65.0    # min allowable temp
+HI_HUMID = 85.0   # max allowable humidity percentage
+LO_HUMID = 65.0   # min allowable humidity percentage
 HI_DENSITY = 1000 # max allowable density number
-FAN_HI_TEMP = 80    # max allowable temp
-FAN_LO_TEMP = 65    # min allowable temp
-FAN_HI_HUMID = 85   # max allowable humidity percentage
-FAN_LO_HUMID = 65   # min allowable humidity percentage
-FAN_HI_MOISTURE = 700   # max allowable soil moisture level 
+FAN_HI_TEMP = 80.0    # max allowable temp
+FAN_LO_TEMP = 65.0    # min allowable temp
+FAN_HI_HUMID = 85.0   # max allowable humidity percentage
+FAN_LO_HUMID = 65.0   # min allowable humidity percentage
 ATOMIZER_LO_HUMIDITY = 65   # humidity level water atomizer turns on
 LIGHT_START = '5:00'    # turn on light @ 5AM
 LIGHT_STOP = '17:00'    # turn off light @ 5PM
 
 # Setup Hardware
-setup_rpi.hardware(BUZZER, GAS_SENSOR, MOISTURE_SENSOR, TEMP_SENSOR, ATOMIZER, LIGHT, FAN, TEMP_ALARM_LED, HUMID_ALARM_LED, MOISTURE_ALARM_LED, ATOMIZER_ON_LED)
+setup_rpi.hardware(BUZZER, GAS_SENSOR, MOISTURE_SENSOR, TEMP_SENSOR, ATOMIZER, LIGHT, FAN, 
+                    TEMP_ALARM_LED, HUMID_ALARM_LED, MOISTURE_ALARM_LED, ATOMIZER_ON_LED)
 
 while True:
     # Get current date & time
@@ -122,7 +123,7 @@ while True:
     temp_alarm = check_alarms.check_temp(LO_TEMP, HI_TEMP, tempF, TEMP_ALARM_LED)
     humid_alarm = check_alarms.check_humidity(LO_HUMID, HI_HUMID, humidity, HUMID_ALARM_LED)
     moisture_alarm = check_alarms.check_moisture(moisture, MOISTURE_ALARM_LED)
-    smoke_alarm = check_alarms.check_gas(HI_DENSITY, density, BUZZER)
+    smoke_alarm = check_alarms.check_gas(HI_DENSITY, density, BUZZER, SMOKE_ALARM_LED)
             
     # Turn Fan on if temperature is too high or humidity is too high
     fan_on = control.fan(tempF, humidity, FAN_HI_TEMP, FAN_LO_TEMP, FAN_HI_HUMID, FAN_LO_HUMID, FAN)
@@ -134,16 +135,18 @@ while True:
     light_on = control.light(light_time, LIGHT, LIGHT_START, LIGHT_STOP)
 
     # Append values to a file
-    send_values.save_to_file(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm,
-                moisture, moisture_alarm, density, HI_DENSITY, smoke_alarm, fan_on, atomizer_on)
+    send_values.save_to_file(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, 
+                                LO_HUMID, humid_alarm, moisture, moisture_alarm, density, 
+                                HI_DENSITY, smoke_alarm, fan_on, atomizer_on)
 
     # Print values to std out console
-    send_values.print_to_stdio(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, LO_HUMID, humid_alarm,
-                moisture, moisture_alarm, density, HI_DENSITY, smoke_alarm, fan_on, atomizer_on)
+    send_values.print_to_stdio(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, 
+                                LO_HUMID, humid_alarm, moisture, moisture_alarm, density, 
+                                HI_DENSITY, smoke_alarm, fan_on, atomizer_on)
 
     # Display Environmental Data on LCD Screen
-    #send_values.print_to_LCD(data_time, tempF, temp_alarm, humidity, humid_alarm, moisture, moisture_alarm, density,
-     #   smoke_alarm, fan_on, atomizer_on)
+    send_values.print_to_LCD(data_time, tempF, temp_alarm, humidity, humid_alarm, moisture, moisture_alarm, density,
+       smoke_alarm, fan_on, atomizer_on)
             
     #time.sleep(300) # wait for 5 minutes before taking another set of data
     time.sleep(5) # wait for 5 minutes before taking another set of data
