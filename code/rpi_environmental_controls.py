@@ -135,6 +135,7 @@ while True:
     light_on = control.light(light_time, LIGHT, LIGHT_START, LIGHT_STOP)
 
     # Append values to a file
+    # only save to file once every
     send_values.save_to_file(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, 
                                 LO_HUMID, humid_alarm, moisture, moisture_alarm, density, 
                                 HI_DENSITY, smoke_alarm, fan_on, atomizer_on)

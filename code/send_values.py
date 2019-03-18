@@ -18,7 +18,13 @@ def save_to_file(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HU
     # <TAB> humidity alarm <TAB> moisture <TAB> hi moisture <TAB> low moisture <TAB> moisture alarm <TAB> density <TAB>
     # hi density <TAB> smoke alarm <TAB> fan on <TAB> ataomizer on \n
 
-    filename = "/home/pi/RPI-Environmental-Controller/testingV1-Branch/RPI-Environmental-Controller/values.txt"
+    # a new file is saved every hour
+    fname = 'Values.txt'
+    fmt ='%Y-%m-%d-%H'
+    date_str = datetime.datetime.now().strftime(fmt)
+
+    filename = date_str + "_" + fname
+    # filename = "/home/pi/RPI-Environmental-Controller/testingV1-Branch/RPI-Environmental-Controller/values.txt"
 
     # concatenate data into 1 string argument
     values = data_time + "\t" + str(tempF) + "\t" + str(HI_TEMP) + "\t" + str(LO_TEMP) + \
@@ -62,23 +68,47 @@ def print_to_LCD(data_time, tempF, temp_alarm, humidity, humidity_alarm, moistur
 
 #    ************  CODE IS NOT WORKING YET ************
  #   Display Environmental Data on LCD Screen
-    setRGB(0,128,64)
+    #setRGB(0,128,64)
+    setRGB(0,153,0)
     setText("Date/Time: \n" + str(data_time))
-    time.sleep(5)
-    setText("Temp:" + str(tempF) + " F \nAlarm:" + str(temp_alarm))
-    time.sleep(5)
-    setText("Humidity:" + str(humidity) + "% \nAlarm:" + str(humidity_alarm))
-    time.sleep(5)       
-    setText("Atomizer is " + str(atomizer_on))
-    setText("Moisture: " + str(moisture) + " \nAlarm:" + str(moisture_alarm))
-    time.sleep(5)
-    setText("Density is " + str(density) + "% \nAlarm:" + str(smoke_alarm))
-    time.sleep(5)
-    setText("Fan is " + str(fan_on))
-    time.sleep(5)
-    setText("Atomizer is " + str(atomizer_on))
-    time.sleep(5)   
-
+    time.sleep(2)
+    if (temp_alarm == "YES"):
+        setRGB(255,0,0) # alarm - display is red
+    else:
+        setRGB(0,153,0) # no, alarm - display is green
+    setText("Temp:" + str(tempF) + " F \nAlarm:" + temp_alarm)
+    time.sleep(2)
+    
+    if (humidity_alarm == "YES"):
+        setRGB(255,0,0) # alarm - display is red
+    else:
+        setRGB(0,153,0) # no, alarm - display is green
+    setText("Humidity:" + str(humidity) + "% \nAlarm:" + humidity_alarm)
+    time.sleep(2)       
+    
+    if (moisture_alarm == "AIR"):
+        setRGB(204,102,0) # display is orange
+    elif (moisture_alarm == "DRY"):
+        setRGB(204,204,0) # display is yellow
+    elif (moisture_alarm == "PERFECT"):
+        setRGB(0,153,0) # display is green
+    elif (moisture_alarm == "WATER"):
+        setRGB(0,0,204) # display is dark blue
+    else:
+        setRGB(255,0,0) # alarm - display is red
+    setText("Moisture: " + str(moisture) + " \nAlarm:" + moisture_alarm)
+    time.sleep(2)
+    if (smoke_alarm == "YES"):
+        setRGB(255,0,0) # alarm - display is red
+    else:
+        setRGB(0,153,0) # no, alarm - display is green
+    setText("Density is " + str(density) + "% \nAlarm:" + smoke_alarm)
+    time.sleep(2)
+    setRGB(0,153,0) # display back to green
+    setText("Fan is " + fan_on)
+    time.sleep(2)
+    setText("Atomizer is " + atomizer_on)
+    
 # run main() function
 if __name__ == "__main__":
     print("Executing as main program")
@@ -97,7 +127,7 @@ if __name__ == "__main__":
     LO_HUMID = 65.0   # min allowable humidity percentage
     humid_alarm = "YES"
     moisture = 400
-    moisture_alarm = "PERFECT"
+    moisture_alarm = "WATER"
     density = 800
     HI_DENSITY = 1000   # max allowable air density
     smoke_alarm = "YES"
