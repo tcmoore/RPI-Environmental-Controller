@@ -1,39 +1,39 @@
 # check_alarms.py
 # Todd Moore
 # 3.17.19
+#!/usr/bin/env python
+# coding=utf-8
 
 # ******** WORKING AS OF 3.17.19 *****
 # code that checks temp, humidity, soil moisture, & sets alarms if too high or too low.
 # also checks Gas Density & sets smoke alarm if too high.
 
-#!/usr/bin/env python
-# coding=utf-8
 from grovepi import digitalWrite
 
-def check_temp(LO_TEMP, HI_TEMP, temp, TEMP_ALARM_LED):
+def check_temp(LO_TEMP_ALARM, HI_TEMP_ALARM, temp, TEMP_ALARM_LED):
     # --------------------------------------------------------------------
     # check for temp alarm
-    if HI_TEMP > temp > LO_TEMP:
+    if HI_TEMP_ALARM > temp > LO_TEMP_ALARM:
         temp_alarm = "OFF"
         digitalWrite(TEMP_ALARM_LED, 0)     # turn off temp alarm led 
     else:
         temp_alarm = "ON"
         digitalWrite(TEMP_ALARM_LED, 1)     # turn on temp alarm led      
-    print("Temp Alarm is ", temp_alarm)
-    print("check_alarms.check_temp done")
+    # print("Temp Alarm is ", temp_alarm)
+    # print("check_alarms.check_temp done")
     return temp_alarm
     
-def check_humidity(LO_HUMID, HI_HUMID, humidity, HUMID_ALARM_LED):
+def check_humidity(LO_HUMID_ALARM, HI_HUMID_ALARM, humidity, HUMID_ALARM_LED):
     # --------------------------------------------------------------------
     # check for humidity alarm
-    if HI_HUMID > humidity > LO_HUMID:
+    if HI_HUMID_ALARM > humidity > LO_HUMID_ALARM:
         humid_alarm = "OFF"
         digitalWrite(HUMID_ALARM_LED, 0)     # turn off humidity alarm led        
     else:
         humid_alarm = "ON"
         digitalWrite(HUMID_ALARM_LED, 1)     # turn on humidity alarm led     
-    print("Humid Alarm is ", humid_alarm)
-    print("check_alarms.check_humidity done")
+    # print("Humid Alarm is ", humid_alarm)
+    # print("check_alarms.check_humidity done")
     return humid_alarm
         
 def check_moisture(moisture, MOISTURE_ALARM_LED):
@@ -70,13 +70,13 @@ def check_moisture(moisture, MOISTURE_ALARM_LED):
     else:
         moisture_alarm = 'BROKEN'
         digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause sensor is broken!!
-    print("Moisture Alarm is ",moisture_alarm)
-    print("check_alarms.check_moisture done")
+    # print("Moisture Alarm is ",moisture_alarm)
+    # print("check_alarms.check_moisture done")
     return moisture_alarm
         
-def check_gas(HI_DENSITY, density, BUZZER, SMOKE_ALARM_LED):
+def check_gas(HI_DENSITY_ALARM, density, BUZZER, SMOKE_ALARM_LED):
     # check for smoke alarm
-    if density < HI_DENSITY:
+    if density < HI_DENSITY_ALARM:
         smoke_alarm = "OFF"
         digitalWrite(BUZZER, 0)     # Turn off buzzer       
         digitalWrite(SMOKE_ALARM_LED, 0)     # Turn off buzzer       
@@ -84,15 +84,12 @@ def check_gas(HI_DENSITY, density, BUZZER, SMOKE_ALARM_LED):
         smoke_alarm = "ON"
         digitalWrite(BUZZER, 1)     # Turn on buzzer
         digitalWrite(SMOKE_ALARM_LED, 0)     # Turn off buzzer       
-    print("Smoke Alarm is ",smoke_alarm)
-    print("check_alarms.check_gas done")
+    # print("Smoke Alarm is ",smoke_alarm)
+    # print("check_alarms.check_gas done")
     return smoke_alarm
 
 # run main() function
 if __name__ == "__main__":
-    print("Executing as main program")
-    print("Value of __name__ is: ", __name__)
-    
     # -------- Test Vectors ------------
     # Hardware constants
     BUZZER = 2   
@@ -102,27 +99,27 @@ if __name__ == "__main__":
     MOISTURE_ALARM_LED = 9
 
     #Software constants
-    HI_TEMP = 80    # max allowable temp
-    LO_TEMP = 65    # min allowable temp
-    HI_HUMID = 85   # max allowable humidity percentage
-    LO_HUMID = 65   # min allowable humidity percentage
-    HI_DENSITY = 1000   # max allowable air density
+    HI_TEMP_ALARM = 80    # max allowable temp
+    LO_TEMP_ALARM = 65    # min allowable temp
+    HI_HUMID_ALARM = 85   # max allowable humidity percentage
+    LO_HUMID_ALARM = 65   # min allowable humidity percentage
+    HI_DENSITY_ALARM = 1000   # max allowable air density
     temp = 75
     humidity = 80
     moisture = 500
     density = 800
-    temp_alarm = check_temp(LO_TEMP, HI_TEMP, temp, TEMP_ALARM_LED)
-    print("High Temp, Low Temp, Temp, & Temp Alarm Vectors are: ", HI_TEMP, LO_TEMP, temp, 
-            temp_alarm)
+    temp_alarm = check_temp(LO_TEMP_ALARM, HI_TEMP_ALARM, temp, TEMP_ALARM_LED)
+    print("High Temp, Low Temp, Temp, & Temp Alarm Vectors are: ", HI_TEMP_ALARM, LO_TEMP_ALARM, 
+            temp, temp_alarm)
     
-    humid_alarm = check_humidity(LO_HUMID, HI_HUMID, humidity, HUMID_ALARM_LED)
-    print("High Humid, Low Humid, Humidity, & Humidity Alarm Vectors are: ", HI_HUMID, LO_HUMID, 
-            humidity, humid_alarm)
+    humid_alarm = check_humidity(LO_HUMID_ALARM, HI_HUMID_ALARM, humidity, HUMID_ALARM_LED)
+    print("High Humid, Low Humid, Humidity, & Humidity Alarm Vectors are: ", HI_HUMID_ALARM, 
+            LO_HUMID_ALARM, humidity, humid_alarm)
     
     check_moisture(moisture, MOISTURE_ALARM_LED)
     print("Moisture is: ", moisture)
 
-    smoke_alarm = check_gas(HI_DENSITY, density, BUZZER, SMOKE_ALARM_LED)
-    print("High Density, Density, & Smoke Alarm Vectors are: ", HI_DENSITY, density, 
+    smoke_alarm = check_gas(HI_DENSITY_ALARM, density, BUZZER, SMOKE_ALARM_LED)
+    print("High Density, Density, & Smoke Alarm Vectors are: ", HI_DENSITY_ALARM, density, 
             smoke_alarm, SMOKE_ALARM_LED)
     

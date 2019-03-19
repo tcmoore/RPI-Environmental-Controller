@@ -70,11 +70,11 @@ GAS_SENSOR = 1
 WHITE = 1   # The White colored sensor.
 
 #Software constants
-HI_TEMP = 80.0    # max allowable temp
-LO_TEMP = 65.0    # min allowable temp
-HI_HUMID = 85.0   # max allowable humidity percentage
-LO_HUMID = 65.0   # min allowable humidity percentage
-HI_DENSITY = 1000 # max allowable density number
+HI_TEMP_ALARM = 80.0    # max allowable temp
+LO_TEMP_ALARM = 65.0    # min allowable temp
+HI_HUMID_ALARM = 85.0   # max allowable humidity percentage
+LO_HUMID_ALARM = 65.0   # min allowable humidity percentage
+HI_DENSITY_ALARM = 1000 # max allowable density number
 FAN_HI_TEMP = 80.0    # max allowable temp
 FAN_LO_TEMP = 65.0    # min allowable temp
 FAN_HI_HUMID = 85.0   # max allowable humidity percentage
@@ -86,6 +86,16 @@ LIGHT_STOP = '17:00'    # turn off light @ 5PM
 # Setup Hardware
 setup_rpi.hardware(BUZZER, GAS_SENSOR, MOISTURE_SENSOR, TEMP_SENSOR, ATOMIZER, LIGHT, FAN, 
                     TEMP_ALARM_LED, HUMID_ALARM_LED, MOISTURE_ALARM_LED, ATOMIZER_ON_LED)
+
+# setup hi & low saved values
+hi_temp_value = 0.0
+lo_temp_value = 100.0
+hi_humid_value = 0.0
+lo_humid_value = 100.0
+hi_moisture_value = 0.0
+lo_moisture_value = 1000.0
+hi_density_value = 0.0
+lo_density_value = 1000.0
 
 while True:
     # Get current date & time
@@ -119,11 +129,17 @@ while True:
     # Get Air Quality Value from MQ2 sensor
     density = get.air(GAS_SENSOR)
                 
+    # save the hi & low values 
+    hi_temp_value, lo_temp_value = hi_lo_temp(tempF, hi_temp_value, lo_temp_value)
+    hi_humid_value, lo_humid_value = hi_lo_humid(humidity, hi_humid_value, lo_humid_value)
+    hi_moisture_value, lo_moisture_value = hi_lo_moisture(moisture, hi_moisture_value, lo_moisture_value)
+    hi_density_value, lo_density_value = hi_lo_density(density, hi_density_value, lo_density_value)
+    
     # check for alarms
-    temp_alarm = check_alarms.check_temp(LO_TEMP, HI_TEMP, tempF, TEMP_ALARM_LED)
-    humid_alarm = check_alarms.check_humidity(LO_HUMID, HI_HUMID, humidity, HUMID_ALARM_LED)
+    temp_alarm = check_alarms.check_temp(LO_TEMP_ALARM, HI_TEMP_ALARM, tempF, TEMP_ALARM_LED)
+    humid_alarm = check_alarms.check_humidity(LO_HUMID_ALARM, HI_HUMID_ALARM, humidity, HUMID_ALARM_LED)
     moisture_alarm = check_alarms.check_moisture(moisture, MOISTURE_ALARM_LED)
-    smoke_alarm = check_alarms.check_gas(HI_DENSITY, density, BUZZER, SMOKE_ALARM_LED)
+    smoke_alarm = check_alarms.check_gas(HI_DENSITY_ALARM, density, BUZZER, SMOKE_ALARM_LED)
             
     # Turn Fan on if temperature is too high or humidity is too high
     fan_on = control.fan(tempF, humidity, FAN_HI_TEMP, FAN_LO_TEMP, FAN_HI_HUMID, FAN_LO_HUMID, FAN)
@@ -135,15 +151,14 @@ while True:
     light_on = control.light(light_time, LIGHT, LIGHT_START, LIGHT_STOP)
 
     # Append values to a file
-    # only save to file once every
-    send_values.save_to_file(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, 
-                                LO_HUMID, humid_alarm, moisture, moisture_alarm, density, 
-                                HI_DENSITY, smoke_alarm, fan_on, atomizer_on)
+    send_values.save_to_file(data_time, tempF, HI_TEMP_ALARM, LO_TEMP_ALARM, temp_alarm, humidity, HI_HUMID_ALARM, 
+                                LO_HUMID_ALARM, humid_alarm, moisture, moisture_alarm, density, 
+                                HI_DENSITY_ALARM, smoke_alarm, fan_on, atomizer_on)
 
     # Print values to std out console
-    send_values.print_to_stdio(data_time, tempF, HI_TEMP, LO_TEMP, temp_alarm, humidity, HI_HUMID, 
-                                LO_HUMID, humid_alarm, moisture, moisture_alarm, density, 
-                                HI_DENSITY, smoke_alarm, fan_on, atomizer_on)
+    send_values.print_to_stdio(data_time, tempF, HI_TEMP_ALARM, LO_TEMP_ALARM, temp_alarm, humidity, HI_HUMID_ALARM, 
+                                LO_HUMID_ALARM, humid_alarm, moisture, moisture_alarm, density, 
+                                HI_DENSITY_ALARM, smoke_alarm, fan_on, atomizer_on)
 
     # Display Environmental Data on LCD Screen
     send_values.print_to_LCD(data_time, tempF, temp_alarm, humidity, humid_alarm, moisture, moisture_alarm, density,
