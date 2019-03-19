@@ -23,7 +23,7 @@ def hi_lo_humid(humidity, hi_humid_value, lo_humid_value):
         hi_humid_value = humidity
     # low humidity value
     if humidity < lo_humid_value:
-        lo_humid_value = tempF
+        lo_humid_value = humidity
   
     return hi_humid_value, lo_humid_value
 
