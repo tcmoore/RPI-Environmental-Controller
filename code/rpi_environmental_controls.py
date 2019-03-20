@@ -12,7 +12,7 @@
 # RPI/Grove Pinout Definitions
 
 #   Port #  Pins on Port #  Type                Sensor Pin  Sensor/Module
-#   -----------------------------------------------------------------------------------------
+#   ------------------------------------------------------------------------
 #   SERIAL  D0 & D1         DIGITAL & SERIAL                n/a
 #   D2      D2 & D3         DIGITAL             D2          Grove Buzzer
 #   D3      D3 & D4         DIGITAL             D3          Humid Alarm LED
@@ -101,11 +101,11 @@ lo_density_value = 1000.0
 while True:
     # Get current date & times
     data_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print("Data Date/Time is ", data_time)
+    # print("Data Date/Time is ", data_time)
     minutes = datetime.datetime.now().strftime("%M")
-    print("Minutes is ", minutes)
+    # print("Minutes is ", minutes)
     light_time = datetime.datetime.now().strftime("%H:%M")  # Only need hours:minutes
-    print("Light Date/Time is ", light_time)
+    # print("Light Date/Time is ", light_time)
 # ____________________________________________________________________________________
     # Get sesor data...
     # Get Temperature in F & Humidity

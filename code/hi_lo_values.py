@@ -67,16 +67,16 @@ if __name__ == "__main__":
     density = 800
     
     hi_temp_value, lo_temp_value = hi_lo_temp(tempF, hi_temp_value, lo_temp_value)
-    print ("Hi Temp ", hi_temp_value, "Lo Temp ", lo_temp_value)
+    # print ("Hi Temp ", hi_temp_value, "Lo Temp ", lo_temp_value)
     
     hi_humid_value, lo_humid_value = hi_lo_humid(humidity, hi_humid_value, lo_humid_value)
-    print("Hi Humid ", hi_humid_value, "Lo Humid ", lo_humid_value)
+    # print("Hi Humid ", hi_humid_value, "Lo Humid ", lo_humid_value)
     
     hi_moisture_value, lo_moisture_value = hi_lo_moisture(moisture, hi_moisture_value, lo_moisture_value)
-    print("Hi Moisture ", hi_moisture_value, "Lo Moisture ", lo_moisture_value)
+    # print("Hi Moisture ", hi_moisture_value, "Lo Moisture ", lo_moisture_value)
     
     hi_density_value, lo_density_value = hi_lo_density(density, hi_density_value, lo_density_value)
-    print("Hi Density ", hi_density_value, "Lo Density ", lo_density_value)
+    # print("Hi Density ", hi_density_value, "Lo Density ", lo_density_value)
 
     # Set the low values
     tempF = 55.0
@@ -85,14 +85,14 @@ if __name__ == "__main__":
     density = 600
     
     hi_temp_value, lo_temp_value = hi_lo_temp(tempF, hi_temp_value, lo_temp_value)
-    print ("Hi Temp ", hi_temp_value, "Lo Temp ", lo_temp_value)
+    # print ("Hi Temp ", hi_temp_value, "Lo Temp ", lo_temp_value)
     
     hi_humid_value, lo_humid_value = hi_lo_humid(humidity, hi_humid_value, lo_humid_value)
-    print("Hi Humid ", hi_humid_value, "Lo Humid ", lo_humid_value)
+    # print("Hi Humid ", hi_humid_value, "Lo Humid ", lo_humid_value)
     
     hi_moisture_value, lo_moisture_value = hi_lo_moisture(moisture, hi_moisture_value, lo_moisture_value)
-    print("Hi Moisture ", hi_moisture_value, "Lo Moisture ", lo_moisture_value)
+    # print("Hi Moisture ", hi_moisture_value, "Lo Moisture ", lo_moisture_value)
     
     hi_density_value, lo_density_value = hi_lo_density(density, hi_density_value, lo_density_value)
-    print("Hi Density ", hi_density_value, "Lo Density ", lo_density_value)
+    # print("Hi Density ", hi_density_value, "Lo Density ", lo_density_value)
 

@@ -94,7 +94,7 @@ def print_to_stdio(data_time, tempF, HI_TEMP_ALARM, LO_TEMP_ALARM, temp_alarm, h
     print("hi temp \t" + str(hi_temp_value) + " F\t" + "hi humid \t" + str(hi_humid_value)) + "%\t" + "hi moisture \t" + str(hi_moisture_value) + "\thi density \t" + str(hi_density_value)
     print("lo temp \t" + str(lo_temp_value) + " F\t" + "lo humid \t" + str(lo_humid_value)) + "%\t"+ "lo moisture \t" + str(lo_moisture_value) + "\tlo density \t" + str(lo_density_value)
     print("")
-    print("fan on \t\t" + fan_on + "\t" + "atomizer on \t" + atomizer_on)
+    print("fan on \t\t" + fan_on + "\t" + "atomizer on \t" + atomizer_on + "\n")
 
 def print_to_LCD(data_time, tempF, temp_alarm, hi_temp_value, lo_temp_value, humidity, 
                     humid_alarm, hi_humid_value, lo_humid_value, moisture, moisture_alarm, 

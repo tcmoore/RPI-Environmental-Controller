@@ -15,8 +15,8 @@ def fan(temp, humidity, FAN_HI_TEMP, FAN_LO_TEMP , FAN_HI_HUMID, FAN_LO_HUMID, F
     else:
         fan_on = "ON"   # turn on exhaust fan led
         digitalWrite(FAN, 1)     # turn on exhaust fan        
-    print("Fan is ",fan_on)
-    print("fan done")
+    # print("Fan is ",fan_on)
+    # print("fan done")
     return fan_on
 
 def atomizer(humidity, ATOMIZER, ATOMIZER_LO_HUMIDITY, ATOMIZER_ON_LED):
@@ -29,8 +29,8 @@ def atomizer(humidity, ATOMIZER, ATOMIZER_LO_HUMIDITY, ATOMIZER_ON_LED):
         atomizer_on = "OFF"
         digitalWrite(ATOMIZER, 0)     # turn off atomizer 
         digitalWrite(ATOMIZER_ON_LED, 0)     # turn off 'atomizer on' led
-    print("Atomizer is ", atomizer_on)
-    print("atomizer done")
+    # print("Atomizer is ", atomizer_on)
+    # print("atomizer done")
     return atomizer_on
 
 def light(light_time, LIGHT, LIGHT_START, LIGHT_STOP):
@@ -42,8 +42,8 @@ def light(light_time, LIGHT, LIGHT_START, LIGHT_STOP):
     else:
         light_on = "OFF"
         digitalWrite(LIGHT, 0)     # turn off grow light
-    print("Lights are ", light_on)
-    print("light done")
+    # print("Lights are ", light_on)
+    # print("light done")
     return light_on
 
 # run main() function

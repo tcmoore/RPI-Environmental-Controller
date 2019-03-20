@@ -16,8 +16,8 @@ def temp(TEMP_SENSOR, WHITE):
         [temp,humidity] = grovepi.dht(TEMP_SENSOR,WHITE) 
         # Convert to Fahrenheit = 9.0/5.0 * Celsius + 32
         tempF = (9/5 * temp) + 32
-        print("Temp/Humidity is: ", tempF, humidity)
-        print("get.temp module done")
+        # print("Temp/Humidity is: ", tempF, humidity)
+        # print("get.temp module done")
         return tempF, humidity
 
     except IOError:
@@ -39,7 +39,7 @@ def moisture(MOISTURE_SENSOR):
     #       690+    sensor in water
     try:
         moisture_level = grovepi.analogRead(MOISTURE_SENSOR)
-        print("get.moisture module done")
+        # print("get.moisture module done")
         return moisture_level
 
     except IOError:
@@ -54,8 +54,8 @@ def air(GAS_SENSOR):
         sensor_value = grovepi.analogRead(GAS_SENSOR)
         # Calculate gas density - large value means more dense gas
         density = (float)(sensor_value / 1024.0)*100
-        print("sensor_value =", sensor_value, " density =", density)
-        print("get.density done")
+        # print("sensor_value =", sensor_value, " density =", density)
+        # print("get.density done")
         return density
     
     except IOError:
@@ -63,9 +63,6 @@ def air(GAS_SENSOR):
 
 # run main() function
 if __name__ == "__main__":
-    print("Executing as main program")
-    print("Value of __name__ is: ", __name__)
-    
     # -------- Test Vectors ------------
     # Hardware constants
     # GrovePi+ Hat Analog Pin Constants

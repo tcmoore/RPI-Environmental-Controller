@@ -304,7 +304,7 @@ def dht(pin, module_type):
 	write_i2c_block(dht_temp_cmd + [pin, module_type, unused])
 	number = read_identified_i2c_block(dht_temp_cmd, no_bytes = 8)
 
-	print(number)
+	# print(number)
 
 	if p_version==2:
 		h=''
