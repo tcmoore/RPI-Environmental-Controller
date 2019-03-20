@@ -2,7 +2,7 @@
 ## Version 19.3
 ## Todd Moore
 
-**** THIS BRANCH, testingV1, IS THE WORKING VERSION OF THE CODE ****
+**** THIS BRANCH, testingV1, IS THE WORKING VERSION OF THE CODE :exclamation:****
 **** THIS CODE IMPORTS & RUNS PYTHON MODULES FROM WITHIN MAIN PYTHON MODULE.  ****
 
 **** MASTER BRANCH USES NO PYTHON FILES & DOES ALL THE WORK IN THE MAIN CODE  ****
@@ -10,22 +10,22 @@
 This is my design of a Raspberry PI B Environmental Controller. It will be used in a 2'x2'x6' grow box.  This design will have many stages until completion.  Check documentation on this github repository for detailed descriptions of the design.
 
 Design goals are:
-- Read Temp (temp/humidity sensor)
-- Read Humidity (temp/humidity sensor)
-- Read Soil Moisture (soil moisture sensor)
-- Read air quality for smoke (are quality sensor)
-- Visual alarms for over/under values of temp/humidity/soil moisture (leds)
-- Alarm with sound if smoke is detected (buzzer)
+- [x] Read Temp (temp/humidity sensor)
+- [x] Read Humidity (temp/humidity sensor)
+- [x] Read Soil Moisture (soil moisture sensor)
+- [x] Read air quality for smoke (are quality sensor)
+- [x] Visual alarms for over/under values of temp/humidity/soil moisture (leds)
+- [x] Alarm with sound if smoke is detected (buzzer)
 
 Icing on the cake would be:
-- Visual Display (LCD Display)
-- Increase humidity in grow box if humidity is too low (water atomizer)
+- [x] Visual Display (LCD Display)
+- [x] Increase humidity in grow box if humidity is too low (water atomizer)
 - Interactive controls for changing env values (buttons)
 - IoT/Web page access/control
 - Push alarms to me via text/email
 - Add water to soil based on soil moisture value (relay, water pump)
-- Turn grow lights on/off using RPI (relay)
-- Turn on/off fan based on temp & humidity using RPI (relay)
+- [x] Turn grow lights on/off using RPI (relay)
+- [x] Turn on/off fan based on temp & humidity using RPI (relay)
 
 - MY DESIGN DOCUMENT USING GROVE COMPONENTS
   - https://github.com/tcmoore/RPI-Environmental-Controller/blob/master/RPI%20Environmental%20Control%20Project.pdf
