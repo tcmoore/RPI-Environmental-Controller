@@ -89,7 +89,7 @@ def print_to_stdio(data_time, tempF, HI_TEMP_ALARM, LO_TEMP_ALARM, temp_alarm, h
     print("-----------------------------------------------------------------------------------------")
     print("temp alarm \t" + temp_alarm + "\t" + "humid alarm \t" + humid_alarm + "\t" + "moisture alarm \t" + moisture_alarm + "\t" + "smoke alarm \t" + smoke_alarm)
     print("temp \t" + "\t" + str(tempF) + " F\t" + "humidity \t" + str(humidity) + "%\t" + "moisture \t" + str(moisture) + "\t" + "density \t" + str(density))
-    print("hi alarm \t" + str(HI_TEMP_ALARM) + " F\t" + "hi alarm \t" + str(HI_HUMID_ALARM) + "%\t\t\t\t" + "hi density \t" + str(HI_DENSITY_ALARM))
+    print("hi alarm \t" + str(HI_TEMP_ALARM) + " F\t" + "hi alarm \t" + str(HI_HUMID_ALARM) + "%\t\t\t\t" + "hi alarm \t" + str(HI_DENSITY_ALARM))
     print("low alarm \t" + str(LO_TEMP_ALARM) + " F\t" + "low alarm \t" + str(LO_HUMID_ALARM)) + "%"
     print("hi temp \t" + str(hi_temp_value) + " F\t" + "hi humid \t" + str(hi_humid_value)) + "%\t" + "hi moisture \t" + str(hi_moisture_value) + "\thi density \t" + str(hi_density_value)
     print("lo temp \t" + str(lo_temp_value) + " F\t" + "lo humid \t" + str(lo_humid_value)) + "%\t"+ "lo moisture \t" + str(lo_moisture_value) + "\tlo density \t" + str(lo_density_value)

@@ -72,7 +72,7 @@ WHITE = 1   # The White colored sensor.
 
 #Software constants
 HI_TEMP_ALARM = 80.0    # max allowable temp
-LO_TEMP_ALARM = 60.0    # min allowable temp
+LO_TEMP_ALARM = 40.0    # min allowable temp
 HI_HUMID_ALARM = 85.0   # max allowable humidity percentage
 LO_HUMID_ALARM = 25.0   # min allowable humidity percentage
 HI_DENSITY_ALARM = 1000 # max allowable density number
@@ -157,7 +157,7 @@ while True:
 # ____________________________________________________________________________________
     # save & send values
     # Append values to a file every 15 min. a new file is created every day.
-    if (minutes == "0" or minutes == "15" or minutes == "30" or minutes == "45"):
+    if (minutes == "00" or minutes == "15" or minutes == "30" or minutes == "45"):
         send_values.save_to_file(data_time, tempF, HI_TEMP_ALARM, LO_TEMP_ALARM, temp_alarm, hi_temp_value,
                 lo_temp_value, humidity, HI_HUMID_ALARM, LO_HUMID_ALARM, humid_alarm,  
                 hi_humid_value, lo_humid_value, moisture, moisture_alarm, hi_moisture_value,
