@@ -1,6 +1,6 @@
-# RPI-Environmental-Controller
-# Version 19.3
-# Todd Moore
+## RPI-Environmental-Controller
+## Version 19.3
+## Todd Moore
 
 **** THIS BRANCH, testingV1, IS THE WORKING VERSION OF THE CODE ****
 **** THIS CODE IMPORTS & RUNS PYTHON MODULES FROM WITHIN MAIN PYTHON MODULE.  ****
