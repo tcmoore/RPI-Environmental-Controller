@@ -86,16 +86,6 @@ ATOMIZER_LO_HUMIDITY = 65   # humidity level water atomizer turns on
 LIGHT_START = '5:00'    # turn on light @ 5AM
 LIGHT_STOP = '17:00'    # turn off light @ 5PM
 
-# setup hi & low saved values
-hi_temp_value = 0.0
-lo_temp_value = 100.0
-hi_humid_value = 0.0
-lo_humid_value = 100.0
-hi_moisture_value = 0.0
-lo_moisture_value = 1000.0
-hi_density_value = 0.0
-lo_density_value = 1000.0
-
 BLYNK_AUTH = '9f4faa38d423494fb9c711144e5fea1f'
 
 # Setup Hardware
@@ -108,10 +98,64 @@ blynk = BlynkLib.Blynk(BLYNK_AUTH)
 # Create BlynkTimer Instance
 timer = BlynkTimer()
 
-@blynk.VIRTUAL_READ(0)  # time value
-# @blynk.VIRTUAL_READ(blynk, 0)
+#@blynk.VIRTUAL_READ(0)  # time value
+@blynk.VIRTUAL_READ(blynk, 0)
+
+# setup hi & low saved values
+hi_temp_value = 0.0
+lo_temp_value = 100.0
+hi_humid_value = 0.0
+lo_humid_value = 100.0
+hi_moisture_value = 0.0
+lo_moisture_value = 1000.0
+hi_density_value = 0.0
+lo_density_value = 1000.0
 
 def read_handler():
+    # Get sesor data...
+    mytime = datetime.datetime.now().strftime('%H:%M:%S')
+    # Get Temperature in F & Humidity
+    tempF, humidity = get.temp(TEMP_SENSOR, WHITE)
+    print(tempF, humidity)
+         
+     # map virtual pins to data values
+    blynk.virtual_write(0, mytime) 
+    #temp values
+    blynk.virtual_write(1, str(tempF))
+    blynk.set_property(2, "color", "#FF8000")
+    blynk.virtual_write(2, "255")
+    # blynk.virtual_write(3, str(lo_temp_value))
+    # blynk.virtual_write(4, str(HI_TEMP_ALARM))
+    # blynk.virtual_write(5, str(LO_TEMP_ALARM))
+    # blynk.virtual_write(6, str(temp_alarm))
+    # #humidity values
+    # blynk.virtual_write(7, str(humidity))
+    # blynk.virtual_write(8, str(hi_humid_value))
+    # blynk.virtual_write(9, str(lo_humid_value))
+    # blynk.virtual_write(10, str(HI_HUMID_ALARM))
+    # blynk.virtual_write(11, str(LO_HUMID_ALARM))
+    # blynk.virtual_write(12, humid_alarm)
+    # # moisture values
+    # blynk.virtual_write(13, moisture) 
+    # blynk.virtual_write(14, str(hi_moisture_value))
+    # blynk.virtual_write(15, str(lo_moisture_value))
+    # blynk.virtual_write(16, str(moisture_alarm))
+    # # density values
+    # blynk.virtual_write(17, str(density))
+    # blynk.virtual_write(18, str(hi_density_value))
+    # blynk.virtual_write(19, str(lo_density_value))
+    # blynk.virtual_write(20, str(HI_DENSITY_ALARM))
+    # blynk.virtual_write(21, str(smoke_alarm))
+    # # equipment control signals
+    # blynk.virtual_write(22, str(fan_on))
+    # blynk.virtual_write(23, str(atomizer_on))
+    # blynk.virtual_write(24, str(light_on))
+    # blynk.virtual_write(25, smoke_led)
+
+# Add Timers
+timer.set_interval(5, read_handler)
+
+while True:
     # Get current date & times
     data_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     # print("Data Date/Time is ", data_time)
@@ -145,10 +189,10 @@ def read_handler():
     density = round(get.air(GAS_SENSOR), 2)
 # ____________________________________________________________________________________
     # save the hi & low values 
-    hi_temp_value1, lo_temp_value1 = hi_lo_values.hi_lo_temp(tempF, hi_temp_value, lo_temp_value)
-    hi_humid_value1, lo_humid_value1 = hi_lo_values.hi_lo_humid(humidity, hi_humid_value, lo_humid_value)
-    hi_moisture_value1, lo_moisture_value1 = hi_lo_values.hi_lo_moisture(moisture, hi_moisture_value, lo_moisture_value)
-    hi_density_value1, lo_density_value1 = hi_lo_values.hi_lo_density(density, hi_density_value, lo_density_value)
+    hi_temp_value, lo_temp_value = hi_lo_values.hi_lo_temp(tempF, hi_temp_value, lo_temp_value)
+    hi_humid_value, lo_humid_value = hi_lo_values.hi_lo_humid(humidity, hi_humid_value, lo_humid_value)
+    hi_moisture_value, lo_moisture_value = hi_lo_values.hi_lo_moisture(moisture, hi_moisture_value, lo_moisture_value)
+    hi_density_value, lo_density_value = hi_lo_values.hi_lo_density(density, hi_density_value, lo_density_value)
 # ____________________________________________________________________________________
     # check for alarms
     temp_alarm, blynk_temp_led_color = check_alarms.check_temp(LO_TEMP_ALARM, HI_TEMP_ALARM, tempF, TEMP_ALARM_LED)
@@ -202,42 +246,3 @@ def read_handler():
     # wait for 30 seconds before taking another set of data (19 seconds for lcd output &
     # 2 seconds below = the 15 seconds)
     time.sleep(9)
-
-    # map virtual pins to data values
-    blynk.virtual_write(0, mytime) 
-    #temp values
-    blynk.virtual_write(1, str(tempF))
-    blynk.set_property(2, "color", "#FF8000")
-    blynk.virtual_write(2, "255")
-    # blynk.virtual_write(3, str(lo_temp_value))
-    # blynk.virtual_write(4, str(HI_TEMP_ALARM))
-    # blynk.virtual_write(5, str(LO_TEMP_ALARM))
-    # blynk.virtual_write(6, str(temp_alarm))
-    # #humidity values
-    # blynk.virtual_write(7, str(humidity))
-    # blynk.virtual_write(8, str(hi_humid_value))
-    # blynk.virtual_write(9, str(lo_humid_value))
-    # blynk.virtual_write(10, str(HI_HUMID_ALARM))
-    # blynk.virtual_write(11, str(LO_HUMID_ALARM))
-    # blynk.virtual_write(12, humid_alarm)
-    # # moisture values
-    # blynk.virtual_write(13, moisture) 
-    # blynk.virtual_write(14, str(hi_moisture_value))
-    # blynk.virtual_write(15, str(lo_moisture_value))
-    # blynk.virtual_write(16, str(moisture_alarm))
-    # # density values
-    # blynk.virtual_write(17, str(density))
-    # blynk.virtual_write(18, str(hi_density_value))
-    # blynk.virtual_write(19, str(lo_density_value))
-    # blynk.virtual_write(20, str(HI_DENSITY_ALARM))
-    # blynk.virtual_write(21, str(smoke_alarm))
-    # # equipment control signals
-    # blynk.virtual_write(22, str(fan_on))
-    # blynk.virtual_write(23, str(atomizer_on))
-    # blynk.virtual_write(24, str(light_on))
-    # blynk.virtual_write(25, smoke_led)
-
-# Add Timers
-timer.set_interval(5, read_handler)
-
-while True:

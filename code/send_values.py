@@ -76,13 +76,13 @@ def print_to_stdio(data_time, tempF, HI_TEMP_ALARM, LO_TEMP_ALARM, temp_alarm, h
     #
     # Date/Time:    05/17/2019 05:27:00 
     #----------------------------------------------------------------------------------
-    # temp alarm    OFF      humid alarm OFF      moisture alarm  PERFECT smoke_alarm OFF
+    # temp alarm    OFF     humid alarm OFF     moisture alarm  PERFECT smoke_alarm OFF
     # temp          70      humidity    70      moisture        500     density     800
-    # hi alarm      80      hi alarm    80      hi moisture     500     hi alarm    1000
-    # low alarm     65      low alarm   60      lo moisture     400     hi density  900
-    # hi temp       75      hi humid    75                              lo density  875
-    # lo temp       65      lo humid    62
-    #                    
+    # hi temp       75      hi humid    75      hi moisture     500     hi density  900
+    # lo temp       65      lo humid    62      lo moisture     400     lo density  875
+    # hi alarm      80      hi alarm    80                              hi alarm    1000
+    # low alarm     65      low alarm   60                              
+     #                    
     # fan on        OFF      atomizer on OFF  
 
     print("Date/Time    " + data_time)

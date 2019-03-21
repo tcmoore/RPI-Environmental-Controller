@@ -12,12 +12,14 @@ def fan(temp, humidity, FAN_HI_TEMP, FAN_LO_TEMP , FAN_HI_HUMID, FAN_LO_HUMID, F
     if FAN_HI_TEMP > temp > FAN_LO_TEMP:
         fan_on = "OFF"  # turn off exhaust fan led
         digitalWrite(FAN, 0)     # turn off exhaust fan   
+        blynk_fan_led_color = "#000000"   # LED is BLACK on blynk app
     else:
         fan_on = "ON"   # turn on exhaust fan led
         digitalWrite(FAN, 1)     # turn on exhaust fan        
+        blynk_fan_led_color = "#009900"   # LED is GREEN on blynk app
     # print("Fan is ",fan_on)
     # print("fan done")
-    return fan_on
+    return fan_on, blynk_fan_led_color
 
 def atomizer(humidity, ATOMIZER, ATOMIZER_LO_HUMIDITY, ATOMIZER_ON_LED):
     # turn on water atomizer if humidity is too low
@@ -25,13 +27,15 @@ def atomizer(humidity, ATOMIZER, ATOMIZER_LO_HUMIDITY, ATOMIZER_ON_LED):
         atomizer_on = "ON"
         digitalWrite(ATOMIZER, 1)     # turn on atomizer 
         digitalWrite(ATOMIZER_ON_LED, 1)     # turn on 'atomizer on' led
+        blynk_atomizer_led_color = "#009900"   # LED is GREEN on blynk app
     else:
         atomizer_on = "OFF"
         digitalWrite(ATOMIZER, 0)     # turn off atomizer 
         digitalWrite(ATOMIZER_ON_LED, 0)     # turn off 'atomizer on' led
+        blynk_atomizer_led_color = "#000000"   # LED is BLACK on blynk app
     # print("Atomizer is ", atomizer_on)
     # print("atomizer done")
-    return atomizer_on
+    return atomizer_on, blynk_atomizer_led_color
 
 def light(light_time, LIGHT, LIGHT_START, LIGHT_STOP):
     # Turn on/off lights at a certain time
@@ -39,12 +43,14 @@ def light(light_time, LIGHT, LIGHT_START, LIGHT_STOP):
         light_on = "ON"
         print(LIGHT_START, LIGHT_STOP, light_time)
         digitalWrite(LIGHT, 1)     # turn on grow light
+        blynk_light_led_color = "#009900"   # LED is GREEN on blynk app
     else:
         light_on = "OFF"
         digitalWrite(LIGHT, 0)     # turn off grow light
-    # print("Lights are ", light_on)
+        blynk_light_led_color = "#000000"   # LED is BLACK on blynk app
+     # print("Lights are ", light_on)
     # print("light done")
-    return light_on
+    return light_on, blynk_light_led_color
 
 # run main() function
 if __name__ == "__main__":
