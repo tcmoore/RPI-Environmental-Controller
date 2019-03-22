@@ -42,13 +42,15 @@
 import datetime
 import time
 import BlynkLib
-from BlynkTimer import BlynkTimer
+# from BlynkTimer import BlynkTimer
 import setup_rpi
 import get
 import hi_lo_values
 import check_alarms
 import control
 import send_values
+
+BLYNK_AUTH = '9f4faa38d423494fb9c711144e5fea1f'
 
 # --------------Setup Constants ---------------------
 # GrovePi+ Hat Digital Pin Constants
@@ -88,15 +90,21 @@ LIGHT_STOP = '17:00'    # turn off light @ 5PM
 
 # setup hi & low saved values
 hi_temp_value = 0.0
+hi_temp_value1 = 0.0
 lo_temp_value = 100.0
+lo_temp_value1 = 100.0
 hi_humid_value = 0.0
+hi_humid_value1 = 0.0
 lo_humid_value = 100.0
+lo_humid_value1 = 100.0
 hi_moisture_value = 0.0
-lo_moisture_value = 1000.0
+hi_moisture_value1 = 0.0
+lo_moisture_value = 100.0
+lo_moisture_value1 = 100.0
 hi_density_value = 0.0
-lo_density_value = 1000.0
-
-BLYNK_AUTH = '9f4faa38d423494fb9c711144e5fea1f'
+hi_density_value1 = 0.0
+lo_density_value = 50.0
+lo_density_value1 = 50.0
 
 # Setup Hardware
 setup_rpi.hardware(BUZZER, GAS_SENSOR, MOISTURE_SENSOR, TEMP_SENSOR, ATOMIZER, LIGHT, FAN, 
@@ -106,12 +114,18 @@ setup_rpi.hardware(BUZZER, GAS_SENSOR, MOISTURE_SENSOR, TEMP_SENSOR, ATOMIZER, L
 blynk = BlynkLib.Blynk(BLYNK_AUTH)
 
 # Create BlynkTimer Instance
-timer = BlynkTimer()
+# timer = BlynkTimer()
 
-@blynk.VIRTUAL_READ(0)  # time value
-# @blynk.VIRTUAL_READ(blynk, 0)
+@blynk.ON(0)
+@blynk.ON(1)
+@blynk.ON(2)
+@blynk.ON(7)
+@blynk.ON(16)
+# @blynk.VIRTUAL_READ(0)  # time value
+# @blynk.VIRTUAL_READ(1)  # time value
+# @blynk.VIRTUAL_READ(6)  # time value
 
-def read_handler():
+def v0_read_handler():
     # Get current date & times
     data_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     # print("Data Date/Time is ", data_time)
@@ -119,11 +133,11 @@ def read_handler():
     # print("Minutes is ", minutes)
     light_time = datetime.datetime.now().strftime("%H:%M")  # Only need hours:minutes
     # print("Light Date/Time is ", light_time)
-# ____________________________________________________________________________________
+    #__________________________________________________________________________________
+
     # Get sesor data...
     # Get Temperature in F & Humidity
     tempF, humidity = get.temp(TEMP_SENSOR, WHITE)
-                
     # Get Soil Moisture & check if there is an alarm
     #   Here are suggested sensor values:
     #       Min  Typ  Max  Condition
@@ -131,7 +145,6 @@ def read_handler():
     #       0    20   300  sensor in dry soil
     #       300  580  700  sensor in humid soil
     #       700  940  950  sensor in water
-    
     #   Sensor values observer: 
     #       Values  Condition
     #       --------------------------
@@ -140,34 +153,49 @@ def read_handler():
     #       425-689 sensor in humid soil
     #       690+    sensor in water
     moisture = get.moisture(MOISTURE_SENSOR)
-                    
     # Get Air Quality Value from MQ2 sensor
     density = round(get.air(GAS_SENSOR), 2)
-# ____________________________________________________________________________________
+    # hi_temp_value = hi_temp_value1
+    # lo_temp_value = lo_temp_value1
+    # hi_humid_value = hi_humid_value1
+    # lo_humid_value = lo_humid_value1
+    # hi_moisture_value = hi_moisture_value1
+    # lo_moisture_value = lo_moisture_value1
+    # hi_density_value = hi_density_value1
+    # lo_density_value = lo_density_value1
+    #__________________________________________________________________________________
+
     # save the hi & low values 
     hi_temp_value1, lo_temp_value1 = hi_lo_values.hi_lo_temp(tempF, hi_temp_value, lo_temp_value)
     hi_humid_value1, lo_humid_value1 = hi_lo_values.hi_lo_humid(humidity, hi_humid_value, lo_humid_value)
-    hi_moisture_value1, lo_moisture_value1 = hi_lo_values.hi_lo_moisture(moisture, hi_moisture_value, lo_moisture_value)
-    hi_density_value1, lo_density_value1 = hi_lo_values.hi_lo_density(density, hi_density_value, lo_density_value)
-# ____________________________________________________________________________________
+    hi_moisture_value1, lo_moisture_value1 = hi_lo_values.hi_lo_moisture(moisture, hi_moisture_value, 
+                                                                            lo_moisture_value)
+    hi_density_value1, lo_density_value1 = hi_lo_values.hi_lo_density(density, hi_density_value, 
+                                                                            lo_density_value)
+    #__________________________________________________________________________________
+
     # check for alarms
-    temp_alarm, blynk_temp_led_color = check_alarms.check_temp(LO_TEMP_ALARM, HI_TEMP_ALARM, tempF, TEMP_ALARM_LED)
+    temp_alarm, blynk_temp_led_color = check_alarms.check_temp(LO_TEMP_ALARM, HI_TEMP_ALARM, tempF, 
+                                                                TEMP_ALARM_LED)
     humid_alarm, blynk_humid_led_color = check_alarms.check_humidity(LO_HUMID_ALARM, HI_HUMID_ALARM, humidity, 
                                                 HUMID_ALARM_LED)
     moisture_alarm, blynk_moist_led_color = check_alarms.check_moisture(moisture, MOISTURE_ALARM_LED)
-    smoke_alarm, blynk_smoke_led_color = check_alarms.check_gas(HI_DENSITY_ALARM, density, BUZZER, SMOKE_ALARM_LED)
-# ____________________________________________________________________________________
+    smoke_alarm, blynk_smoke_led_color = check_alarms.check_gas(HI_DENSITY_ALARM, density, BUZZER, 
+                                                                    SMOKE_ALARM_LED)
+    #__________________________________________________________________________________
+
     # turn on/off equipment           
     # Turn Fan on if temperature is too high or humidity is too high
-    fan_on, blynk_fan_led_color = control.fan(tempF, humidity, FAN_HI_TEMP, FAN_LO_TEMP, FAN_HI_HUMID, FAN_LO_HUMID, 
-                            FAN)
-            
+    fan_on, blynk_fan_led_color = control.fan(tempF, humidity, FAN_HI_TEMP, FAN_LO_TEMP, FAN_HI_HUMID, 
+                                                FAN_LO_HUMID, FAN)
+                                            
     # turn on water atomizer if humidity is too low
-    atomizer_on, blynk_atomizer_led_color = control.atomizer(humidity, ATOMIZER, ATOMIZER_LO_HUMIDITY, ATOMIZER_ON_LED)
-            
+    atomizer_on, blynk_atomizer_led_color = control.atomizer(humidity, ATOMIZER, ATOMIZER_LO_HUMIDITY, 
+                                                                ATOMIZER_ON_LED)
     # turn on/off lights based on a certain time
     light_on, blynk_light_led_color = control.light(light_time, LIGHT, LIGHT_START, LIGHT_STOP)
-# ____________________________________________________________________________________
+    #__________________________________________________________________________________
+
     # save & send values
     # Append values to a file every 15 min. a new file is created every day.
     if (minutes == "00" or minutes == "15" or minutes == "30" or minutes == "45"):
@@ -176,7 +204,6 @@ def read_handler():
                 hi_humid_value, lo_humid_value, moisture, moisture_alarm, hi_moisture_value,
                 lo_moisture_value, density, HI_DENSITY_ALARM, smoke_alarm, hi_density_value,
                 lo_density_value, fan_on, atomizer_on)
-    
     # append file to a file if there is an error.
     if (temp_alarm == "ON" or humid_alarm == "ON" or moisture_alarm == "AIR" or moisture_alarm == "DRY" 
             or moisture_alarm == "WATER" or smoke_alarm == "ON"):
@@ -185,59 +212,70 @@ def read_handler():
                 hi_humid_value, lo_humid_value, moisture, moisture_alarm, hi_moisture_value,
                 lo_moisture_value, density, HI_DENSITY_ALARM, smoke_alarm, hi_density_value,
                 lo_density_value, fan_on, atomizer_on)
-
     # Print values to std out console
     send_values.print_to_stdio(data_time, tempF, HI_TEMP_ALARM, LO_TEMP_ALARM, temp_alarm, hi_temp_value,
                 lo_temp_value, humidity, HI_HUMID_ALARM, LO_HUMID_ALARM, humid_alarm,  
                 hi_humid_value, lo_humid_value, moisture, moisture_alarm, hi_moisture_value,
                 lo_moisture_value, density, HI_DENSITY_ALARM, smoke_alarm, hi_density_value,
                 lo_density_value, fan_on, atomizer_on)
-
     # Display Environmental Data on LCD Screen
     send_values.print_to_LCD(data_time, tempF, temp_alarm, hi_temp_value, lo_temp_value, humidity, 
-                    humid_alarm, hi_humid_value, lo_humid_value, moisture, moisture_alarm, 
-                    hi_moisture_value, lo_moisture_value, density, smoke_alarm, 
-                    hi_density_value, lo_density_value, fan_on, atomizer_on)
-            
-    # wait for 30 seconds before taking another set of data (19 seconds for lcd output &
-    # 2 seconds below = the 15 seconds)
-    time.sleep(9)
+                humid_alarm, hi_humid_value, lo_humid_value, moisture, moisture_alarm, 
+                hi_moisture_value, lo_moisture_value, density, smoke_alarm, 
+                hi_density_value, lo_density_value, fan_on, atomizer_on)
+    #__________________________________________________________________________________
 
     # map virtual pins to data values
-    blynk.virtual_write(0, mytime) 
+    # date/time value
+    blynk.set_property(0, "label", "DATE/TIME")
+    blynk.virtual_write(0, data_time)
+
     #temp values
+    blynk.set_property(1, "label", "CURRENT TEMP")
+    blynk.set_property(1, "color", blynk_temp_led_color)
     blynk.virtual_write(1, str(tempF))
-    blynk.set_property(2, "color", "#FF8000")
-    blynk.virtual_write(2, "255")
+
+    blynk.set_property(2, "label", "HI TEMP TODAY")
+    blynk.set_property(2, "color", "0000CC")
+    blynk.virtual_write(2, str(hi_temp_value))
     # blynk.virtual_write(3, str(lo_temp_value))
     # blynk.virtual_write(4, str(HI_TEMP_ALARM))
     # blynk.virtual_write(5, str(LO_TEMP_ALARM))
-    # blynk.virtual_write(6, str(temp_alarm))
+ 
     # #humidity values
-    # blynk.virtual_write(7, str(humidity))
+    blynk.set_property(7, "label", "CURRENT HUMIDITY")
+    blynk.set_property(7, "color", blynk_humid_led_color)
+    blynk.virtual_write(7, str(humidity))
     # blynk.virtual_write(8, str(hi_humid_value))
     # blynk.virtual_write(9, str(lo_humid_value))
     # blynk.virtual_write(10, str(HI_HUMID_ALARM))
     # blynk.virtual_write(11, str(LO_HUMID_ALARM))
-    # blynk.virtual_write(12, humid_alarm)
+
     # # moisture values
-    # blynk.virtual_write(13, moisture) 
+    # blynk.virtual_write(13, str(moisture))
     # blynk.virtual_write(14, str(hi_moisture_value))
     # blynk.virtual_write(15, str(lo_moisture_value))
-    # blynk.virtual_write(16, str(moisture_alarm))
+    blynk.set_property(16, "label", moisture_alarm)
+    blynk.set_property(16, "color", blynk_moist_led_color)
+    blynk.virtual_write(16, moisture_alarm)
+
     # # density values
     # blynk.virtual_write(17, str(density))
     # blynk.virtual_write(18, str(hi_density_value))
     # blynk.virtual_write(19, str(lo_density_value))
     # blynk.virtual_write(20, str(HI_DENSITY_ALARM))
     # blynk.virtual_write(21, str(smoke_alarm))
+
     # # equipment control signals
     # blynk.virtual_write(22, str(fan_on))
     # blynk.virtual_write(23, str(atomizer_on))
     # blynk.virtual_write(24, str(light_on))
     # blynk.virtual_write(25, smoke_led)
 
-# Add Timers
-timer.set_interval(5, read_handler)
-
+    # Add Timers
+    # timer.set_interval(1, v0_read_handler)
+ 
 while True:
+    v0_read_handler()
+    blynk.run()
+#     timer.run()

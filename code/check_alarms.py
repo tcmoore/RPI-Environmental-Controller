@@ -16,11 +16,11 @@ def check_temp(LO_TEMP_ALARM, HI_TEMP_ALARM, temp, TEMP_ALARM_LED):
     if HI_TEMP_ALARM > temp > LO_TEMP_ALARM:
         temp_alarm = "OFF"
         digitalWrite(TEMP_ALARM_LED, 0)     # turn off temp alarm led on RPI
-        blynk_temp_led_color = "#FFF000"   # LED is RED on blynk app
+        blynk_temp_led_color = "#009900"   # LED is GREEN on blynk app 
     else:
         temp_alarm = "ON"
         digitalWrite(TEMP_ALARM_LED, 1)     # turn on temp alarm led on RPI
-        blynk_temp_led_color = "#009900"   # LED is GREEN on blynk app
+        blynk_temp_led_color = "#FF0000"   # LED is RED on blynk app
     # print("Temp Alarm is ", temp_alarm)
     # print("check_alarms.check_temp done")
     return temp_alarm, blynk_temp_led_color
@@ -35,7 +35,7 @@ def check_humidity(LO_HUMID_ALARM, HI_HUMID_ALARM, humidity, HUMID_ALARM_LED):
     else:
         humid_alarm = "ON"
         digitalWrite(HUMID_ALARM_LED, 1)     # turn on humidity alarm led     
-        blynk_humid_led_color = "#FFF000"   # LED is RED on blynk app
+        blynk_humid_led_color = "#FF0000"   # LED is RED on blynk app
     # print("Humid Alarm is ", humid_alarm)
     # print("check_alarms.check_humidity done")
     return humid_alarm, blynk_humid_led_color
@@ -78,7 +78,7 @@ def check_moisture(moisture, MOISTURE_ALARM_LED):
     else:
         moisture_alarm = 'BROKEN'
         digitalWrite(MOISTURE_ALARM_LED, 1)     # Turn on LED cause sensor is broken!!
-        blynk_moist_led_color = "#FFF000"   # LED is RED on blynk app
+        blynk_moist_led_color = "#FF0000"   # LED is RED on blynk app
     # print("Moisture Alarm is ",moisture_alarm)
     # print("check_alarms.check_moisture done")
     return moisture_alarm, blynk_moist_led_color
@@ -94,7 +94,7 @@ def check_gas(HI_DENSITY_ALARM, density, BUZZER, SMOKE_ALARM_LED):
         smoke_alarm = "ON"
         digitalWrite(BUZZER, 1)     # Turn on buzzer
         digitalWrite(SMOKE_ALARM_LED, 0)     # Turn off buzzer       
-        blynk_smoke_led_color = "#FFF000"   # LED is RED on blynk app
+        blynk_smoke_led_color = "#FF0000"   # LED is RED on blynk app
     # print("Smoke Alarm is ",smoke_alarm)
     # print("check_alarms.check_gas done")
     return smoke_alarm, blynk_smoke_led_color
