@@ -6,89 +6,74 @@
 # control exhaust fan, water atomizer (humidifier), & lights
 
 from grovepi import *
+import config
 
-def fan(temp, humidity, FAN_HI_TEMP, FAN_LO_TEMP , FAN_HI_HUMID, FAN_LO_HUMID, FAN):
+def fan():
     # Turn Fan on if temperature is too high or humidity is too high
-    if FAN_HI_TEMP > temp > FAN_LO_TEMP:
-        fan_on = "OFF"  # turn off exhaust fan led
-        digitalWrite(FAN, 0)     # turn off exhaust fan   
-        blynk_fan_led_color = "#000000"   # LED is BLACK on blynk app
+    if config.FAN_HI_TEMP > config.tempF > config.FAN_LO_TEMP:
+        config.fan_on = "OFF"  # turn off exhaust fan led
+        digitalWrite(config.FAN, 0)     # turn off exhaust fan   
+        config.blynk_fan_led_color = "#000000"   # LED is BLACK on blynk app
     else:
-        fan_on = "ON"   # turn on exhaust fan led
-        digitalWrite(FAN, 1)     # turn on exhaust fan        
-        blynk_fan_led_color = "#009900"   # LED is GREEN on blynk app
+        config.fan_on = "ON"   # turn on exhaust fan led
+        digitalWrite(config.FAN, 1)     # turn on exhaust fan        
+        config.blynk_fan_led_color = "#009900"   # LED is GREEN on blynk app
     # print("Fan is ",fan_on)
     # print("fan done")
-    return fan_on, blynk_fan_led_color
+#    return fan_on, blynk_fan_led_color
 
-def atomizer(humidity, ATOMIZER, ATOMIZER_LO_HUMIDITY, ATOMIZER_ON_LED):
+def atomizer():
     # turn on water atomizer if humidity is too low
-    if humidity <   ATOMIZER_LO_HUMIDITY:
-        atomizer_on = "ON"
-        digitalWrite(ATOMIZER, 1)     # turn on atomizer 
-        digitalWrite(ATOMIZER_ON_LED, 1)     # turn on 'atomizer on' led
-        blynk_atomizer_led_color = "#009900"   # LED is GREEN on blynk app
+    if config.humidity <   config.ATOMIZER_LO_HUMIDITY:
+        config.atomizer_on = "ON"
+        digitalWrite(config.ATOMIZER, 1)     # turn on atomizer 
+        digitalWrite(config.ATOMIZER_ON_LED, 1)     # turn on 'atomizer on' led
+        config.blynk_atomizer_led_color = "#009900"   # LED is GREEN on blynk app
     else:
-        atomizer_on = "OFF"
-        digitalWrite(ATOMIZER, 0)     # turn off atomizer 
-        digitalWrite(ATOMIZER_ON_LED, 0)     # turn off 'atomizer on' led
-        blynk_atomizer_led_color = "#000000"   # LED is BLACK on blynk app
+        config.atomizer_on = "OFF"
+        digitalWrite(config.ATOMIZER, 0)     # turn off atomizer 
+        digitalWrite(config.ATOMIZER_ON_LED, 0)     # turn off 'atomizer on' led
+        config.blynk_atomizer_led_color = "#000000"   # LED is BLACK on blynk app
     # print("Atomizer is ", atomizer_on)
     # print("atomizer done")
-    return atomizer_on, blynk_atomizer_led_color
+#    return atomizer_on, blynk_atomizer_led_color
 
-def light(light_time, LIGHT, LIGHT_START, LIGHT_STOP):
+def light(light_time):
     # Turn on/off lights at a certain time
-    if LIGHT_STOP > light_time > LIGHT_START:
-        light_on = "ON"
-        print(LIGHT_START, LIGHT_STOP, light_time)
-        digitalWrite(LIGHT, 1)     # turn on grow light
-        blynk_light_led_color = "#009900"   # LED is GREEN on blynk app
+    if config.LIGHT_STOP > light_time > config.LIGHT_START:
+        config.light_on = "ON"
+        print(config.LIGHT_START, config.LIGHT_STOP, config.light_time)
+        digitalWrite(config.LIGHT, 1)     # turn on grow light
+        config.blynk_light_led_color = "#009900"   # LED is GREEN on blynk app
     else:
-        light_on = "OFF"
-        digitalWrite(LIGHT, 0)     # turn off grow light
-        blynk_light_led_color = "#000000"   # LED is BLACK on blynk app
+        config.light_on = "OFF"
+        digitalWrite(config.LIGHT, 0)     # turn off grow light
+        config.blynk_light_led_color = "#000000"   # LED is BLACK on blynk app
      # print("Lights are ", light_on)
     # print("light done")
-    return light_on, blynk_light_led_color
+#    return light_on, blynk_light_led_color
 
 # run main() function
 if __name__ == "__main__":
     print("Executing as main program")
     print("Value of __name__ is: ", __name__)
     import datetime
-    # -------- Test Vectors ------------
-    # Hardware constants
-    ATOMIZER_ON_LED = 5
-    ATOMIZER = 7
-    LIGHT = 16  # uses A2 as digital channels 16 & 17
-    FAN = 17    # uses A2 as digital channels 16 & 17
+    import config
 
-    pinMode(LIGHT,"OUTPUT")
-    pinMode(FAN,"OUTPUT")
-    pinMode(ATOMIZER,"OUTPUT")
-    pinMode(ATOMIZER_ON_LED,"OUTPUT")
+    pinMode(config.LIGHT,"OUTPUT")
+    pinMode(config.FAN,"OUTPUT")
+    pinMode(config.ATOMIZER,"OUTPUT")
+    pinMode(config.ATOMIZER_ON_LED,"OUTPUT")
     time.sleep(1)
     
-    #Software constants
-    FAN_HI_TEMP = 80    # max allowable temp
-    FAN_LO_TEMP = 65    # min allowable temp
-    FAN_HI_HUMID = 85   # max allowable humidity percentage
-    FAN_LO_HUMID = 65   # min allowable humidity percentage
-    FAN_HI_MOISTURE = 700   # max allowable soil moisture level
-    ATOMIZER_LO_HUMIDITY = 65   # humidity level water atomizer turns on
-    LIGHT_START = '15:00'
-    LIGHT_STOP = '16:00'
-    temp = 75
-    humidity = 75
     light_time = datetime.datetime.now().strftime("%H:%M")
-    print("Fan Hi Temp, & Fan Low Temp Vectors are: ", FAN_HI_TEMP, FAN_LO_TEMP)
-    print("Fan High Humid, & Fan Low Humid Vectors are: ", FAN_HI_HUMID, FAN_LO_HUMID)
-    print("Temp & Humidity Vectors are: ", temp, humidity)
-    fan(temp, humidity, FAN_HI_TEMP, FAN_LO_TEMP , FAN_HI_HUMID, FAN_LO_HUMID, FAN)
-    print("Humidity & Atomizer Low Humidity Vectors are: ", humidity, ATOMIZER_LO_HUMIDITY)
-    atomizer(humidity, ATOMIZER, ATOMIZER_LO_HUMIDITY, ATOMIZER_ON_LED)
-    print("Light Date/Time is ", light_time)
-    print("Light Start Time & Stop time is: ", LIGHT_START, LIGHT_STOP)
-    light(light_time, LIGHT, LIGHT_START, LIGHT_STOP)
+    print("Fan Hi Temp, & Fan Low Temp Vectors are: ", config.FAN_HI_TEMP, config.FAN_LO_TEMP)
+    print("Fan High Humid, & Fan Low Humid Vectors are: ", config.FAN_HI_HUMID, config.FAN_LO_HUMID)
+    print("Temp & Humidity Vectors are: ", config.tempF, config.humidity)
+    fan()
+    print("Humidity & Atomizer Low Humidity Vectors are: ", config.humidity, config.ATOMIZER_LO_HUMIDITY)
+    atomizer()
+    print("Light Date/Time is ", config.light_time)
+    print("Light Start Time & Stop time is: ", config.LIGHT_START, config.LIGHT_STOP)
+    light()
  
